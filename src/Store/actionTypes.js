@@ -6,4 +6,6 @@ export default actionTypes = {
     SIGNUP_REQUEST_SUCCEED = "SIGNUP_REQUEST_SUCCEED",
 
     AUTH_ERROR = "AUTH_ERROR",
+
+    UPDATE_USER = "UPDATE_USER",
 }
