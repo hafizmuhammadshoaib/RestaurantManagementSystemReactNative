@@ -17,7 +17,8 @@ const rootReducer = combineReducers({
 });
 
 export const rootEpic = combineEpics(
-    AuthEpic
+    AuthEpic.signinUserEpic,
+    AuthEpic.signupUserEpic
   // more epics functions go here
 );
 

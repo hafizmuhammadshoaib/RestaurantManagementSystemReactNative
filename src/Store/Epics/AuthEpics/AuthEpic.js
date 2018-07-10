@@ -9,31 +9,31 @@ const fire = Firebase.auth();
 export default class AuthEpic {
     static signinUserEpic(action$) {
         return action$.ofType(actionTypes.LOGIN_REQUEST).switchMap(({payload}) => {
-            return Observable.fromPromise(Auth.loginUser(payload)
+            return Observable.fromPromise(Auth.loginUser(payload))
                 .map(user => {
                     return {
                         type: actionTypes.LOGIN_REQUEST_SUCCEED,
-                        payload
+                        payload: user
                     }
                 })
                 .catch(err => {
                     return Observable.of(AuthActions.authError(err.message))
-                }))
+                })
         })
     }
 
     static signupUserEpic(action$) {
         return action$.ofType(actionTypes.SIGNUP_REQUEST).switchMap(({payload}) => {
-            return Observable.fromPromise(Auth.createUser(payload)
+            return Observable.fromPromise(Auth.createUser(payload))
                 .map((userObj) => {
-                    return Observable.fromPromise(fire.updateProfile({ displayName: payload.name })
+                    return Observable.fromPromise(fire.updateProfile({ displayName: payload.name }))
                         .map(() => {
                             return {
                                 type: actionTypes.SIGNUP_REQUEST_SUCCEED,
                                 payload: userObj
                             }
                         })
-                    )
+                    
                     // return{
                     //     type: actionTypes.UPDATE_USER,
                     //     payload
@@ -42,7 +42,6 @@ export default class AuthEpic {
                 .catch(err => {
                     return Observable.of(AuthActions.authError(err.message))
                 })
-            )
         })
     }
 

@@ -3,7 +3,7 @@ const fire = Firebase.auth();
 
 export default class Auth {
     static createUser(userObj) {
-        return fire.createUserWithEmailAndPassword(email, password)
+        return fire.createUserWithEmailAndPassword(userObj.email,userObj.password)
             // .then(user => {
             //     user.updateProfile({ displayName: userObj.name })
             //         .then(() => {

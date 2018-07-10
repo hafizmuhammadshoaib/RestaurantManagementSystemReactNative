@@ -4,15 +4,16 @@ let INITIAL_STATE = {
     isProgress: false,
     isError: false,
     errorText: "",
-    user: {}
+    user: null
 }
 
 export default function authReducer(state = INITIAL_STATE, action){
-    switch(action){
+    switch(action.type){
         case actionTypes.LOGIN_REQUEST:
             return Object.assign({}, state, {isProgress: true});
 
         case actionTypes.LOGIN_REQUEST_SUCCEED:
+            console.log('action', action);
             return Object.assign({}, state, {isProgress: false, user: action.payload});
 
         case actionTypes.SIGNUP_REQUEST:
