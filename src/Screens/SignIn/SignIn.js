@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
 
-import { Platform, StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import {connect} from "react-redux";
+import { Platform, StyleSheet, View, TextInput, Dimensions, Text } from 'react-native';
+import { Container, Header, Content, Form, Input, Item, Icon, Button, Card, CardItem, Body, Spinner } from "native-base";
+import { connect } from "react-redux";
 import AuthActions from '../../Store/Actions/AuthActions/AuthActions';
- class SignIn extends Component {
+const { height, fontScale, scale, width } = Dimensions.get("window")
+
+class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
             emailInput: "", passInput: ""
         }
-    }
-    componentWillReceiveProps(nextProps){
 
-        if(nextProps.user){
+    }
+
+    componentWillReceiveProps(nextProps) {
+
+        if (nextProps.user) {
             this.props.history.push('/home')
         }
     }
     inputHandler = (text, name) => {
-        let obj={}
-        obj[name]=text
+        let obj = {}
+        obj[name] = text
         this.setState(obj)
     }
     buttonHandler = () => {
@@ -31,31 +36,64 @@ import AuthActions from '../../Store/Actions/AuthActions/AuthActions';
         this.props.signInUser(obj);
     }
     render() {
+
         return (
-            <View>
-                <TextInput placeholder="Email Input" onChangeText={(text) => { this.inputHandler(text, "emailInput") }} value={this.state.emailInput} />
-                <TextInput placeholder="Password Input" secureTextEntry={true} onChangeText={(text) => { this.inputHandler(text, "passInput") }} value={this.state.passInput} />
-                <Button onPress={this.buttonHandler}
-                    title="SignIn" />
-            </View>)
+
+            <View style={{ flexDirection: "column", justifyContent: "center", flex: 1, backgroundColor: "#FFFFFF" }}  >
+                <Header style={{ display: "none", }} androidStatusBarColor="#B71D1D" ></Header>
+
+                <Text style={{ fontSize: 32, color: "#CE2A2E", textAlign: "center" }}>KOLACHI</Text>
+
+
+                {/* <Content contentContainerStyle={{ justifyContent: 'center', flex: 0.5,flexDirection:"column"}}  > */}
+                <View style={{ flexDirection: "row", flex: 0.5, alignItems: "center", backgroundColor: "#F5F5F5" }}>
+                    <Card backgroundColor="#F5F5F5" >
+                        <CardItem  >
+
+
+                            <Item   >
+                                <Icon style={{ color: "#2DB586" }} active name="person" />
+                                <Input placeholder="Username" value={this.state.emailInput} onChangeText={(text)=>this.inputHandler(text,"emailInput")} />
+                            </Item>
+                        </CardItem>
+                        <CardItem>
+
+                            <Item last >
+                                <Icon style={{ color: "#2DB586" }} active name="lock" />
+                                <Input secureTextEntry placeholder="Password" value={this.state.passInput} onChangeText={(text)=>this.inputHandler(text,"passInput")} />
+                            </Item>
+                        </CardItem>
+                        <CardItem button onPress={this.buttonHandler} style={{ backgroundColor: "#CE2A2E", justifyContent: "center" }} >
+                            <Text style={{ color: "#FFF" }} > Login To Dashboard </Text>
+                        </CardItem>
+
+
+                    </Card>
+                </View>
+                {/* </Content> */}
+                 
+                {this.props.isProgress ?
+                    <Spinner color="#17A266" /> : null}
+            </View>
+
+        )
     }
 }
 const mapStateToProps = state => {
     console.log(state);
     return {
-      user: state.authReducer.user,
-      isProgress: state.authReducer.isProgress,
-      isError: state.authReducer.isError,
-      errorText:state.authReducer.errorText
+        user: state.authReducer.user,
+        isProgress: state.authReducer.isProgress,
+        isError: state.authReducer.isError,
+        errorText: state.authReducer.errorText
     };
-  };
-  const mapDispatchToProps = dispatch => {
+};
+const mapDispatchToProps = dispatch => {
     return {
-        signInUser:(user)=>dispatch(AuthActions.signinUser(user))
+        signInUser: (user) => dispatch(AuthActions.signinUser(user))
     };
-  };
-  export default connect(
+};
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(SignIn);
-  
+)(SignIn);

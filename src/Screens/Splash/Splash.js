@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { Platform, StyleSheet, Text, View, Image, ImageBackground,Dimensions,TextInput } from 'react-native';
+import {Header,Container} from "native-base";
 import BackgroundImage from './BackgroundImage';
 
 const {height,fontScale,scale,width}=Dimensions.get("window")
@@ -11,11 +12,16 @@ export default class Splash extends Component {
     render() {
         console.log("in splash");
         return (
+            <View>
+                <Header style={{display:"none",}} androidStatusBarColor="#000" ></Header>
             <ImageBackground source={require('./background.jpg')} style={styles.container}>
-                {/* <View style={{backgroundColor:'rgba(0,0,0,0)',flex:1}} ></View>
-                <Text style={styles.text}  >Inside</Text> */}
+                
+                <Text style={styles.text}  >KOLACHI</Text>
+                
+                
                 
             </ImageBackground>
+            </View>
         )
     }
 }
@@ -25,7 +31,8 @@ const styles = StyleSheet.create({
         flexDirection:"column",
         width:width,
         height:height,
-        alignItems:"center",
+        alignItems:"center"
+        
         
 
         
@@ -39,8 +46,8 @@ const styles = StyleSheet.create({
     text: {
         
         color: 'white',
-        backgroundColor: '#000',
-        fontSize: 32,
+        fontWeight:"bold",
+        fontSize: 55,
         marginTop:height/2
     }
 });

@@ -13,15 +13,15 @@ import Splash from "./src/Screens/Splash/Splash";
 import SignIn from './src/Screens/SignIn/SignIn';
 import Home from './src/Screens/Home/Home';
 import { Provider } from "react-redux";
-import {store} from './src/Store/index';
+import { store } from './src/Store/index';
 
 export default class App extends Component {
   render() {
     return (
       <Provider store={store} >
-      <NativeRouter>
-        <View >
-          {/* <View style={styles.nav}>
+        <NativeRouter>
+          <View style={{flex:1}}>
+            {/* <View style={styles.nav}>
         <Link
           to="/"
           underlayColor='#f0f4f7'
@@ -42,11 +42,12 @@ export default class App extends Component {
         </Link>
       </View> */}
 
-          <Route exact path="/" component={SignIn} />
-          <Route path="/home" component={Home} />
+            <Route exact path="/" component={SignIn} />
+            <Route path="/home" component={Home} />
+          </View>
           {/* <Route path="/topics" component={Topics} /> */}
-        </View>
-      </NativeRouter>
+
+        </NativeRouter>
       </Provider>
     );
   }
