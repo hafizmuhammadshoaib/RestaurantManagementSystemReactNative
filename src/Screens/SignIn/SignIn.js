@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import {connect} from "react-redux";
 import AuthActions from '../../Store/Actions/AuthActions/AuthActions';
+import DBActions from '../../Store/Actions/DBActions/DBActions';
+
  class SignIn extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +17,9 @@ import AuthActions from '../../Store/Actions/AuthActions/AuthActions';
         if(nextProps.user){
             this.props.history.push('/home')
         }
+    }
+    componentDidMount(){
+        this.props.loadTables();
     }
     inputHandler = (text, name) => {
         let obj={}
@@ -51,7 +56,8 @@ const mapStateToProps = state => {
   };
   const mapDispatchToProps = dispatch => {
     return {
-        signInUser:(user)=>dispatch(AuthActions.signinUser(user))
+        signInUser:(user)=>dispatch(AuthActions.signinUser(user)),
+        loadTables: () => dispatch(DBActions.loadTables())
     };
   };
   export default connect(

@@ -33,11 +33,6 @@ export default class AuthEpic {
                                 payload: userObj
                             }
                         })
-                    
-                    // return{
-                    //     type: actionTypes.UPDATE_USER,
-                    //     payload
-                    // }
                 })
                 .catch(err => {
                     return Observable.of(AuthActions.authError(err.message))
@@ -45,10 +40,23 @@ export default class AuthEpic {
         })
     }
 
-    // static updateUser(action$){
-    //     return action$.ofType(actionTypes.UPDATE_USER)
-    //             .switchMap(({payload})=>{
-    //                 return Observable.fromPromise(Auth.updateUser())
-    //             })
-    // }
+    static chekUser(action$) {
+        return action$.ofType(actionTypes.CHEK_USER)
+            .switchMap(() => {
+                return Observable.fromPromise(Auth.chekUser())
+                    .map(user => {
+                        return {
+                            type: actionTypes.IS_USER_FOUND,
+                            payload: user
+                        }
+                    })
+            })
+    }
+
+    static loadTables(action$){
+        return action$.ofType(actionTypes.LOAD_ALL_TABLES)
+                .switchMap(()=>{
+                    return Observable.fromPromise(Auth)
+                })
+    }
 }

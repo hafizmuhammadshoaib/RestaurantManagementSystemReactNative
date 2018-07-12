@@ -13,7 +13,6 @@ export default function authReducer(state = INITIAL_STATE, action){
             return Object.assign({}, state, {isProgress: true});
 
         case actionTypes.LOGIN_REQUEST_SUCCEED:
-            console.log('action', action);
             return Object.assign({}, state, {isProgress: false, user: action.payload});
 
         case actionTypes.SIGNUP_REQUEST:
@@ -24,6 +23,12 @@ export default function authReducer(state = INITIAL_STATE, action){
 
         case actionTypes.AUTH_ERROR:
             return Object.assign({}, state, {isError: true, errorText: action.payload});
+
+        case actionTypes.SET_ERROR_FALSE:
+            return Object.assign({}, state, {isError: false});
+
+        case actionTypes.IS_USER_FOUND:
+            return Object.assign({}, state, {user: action.payload});
 
         default:
             return state;
