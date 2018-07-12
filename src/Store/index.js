@@ -3,22 +3,26 @@ import { combineEpics, createEpicMiddleware } from "redux-observable";
 import {createLogger} from 'redux-logger';
 // reducers
 import authReducer from './Reducer/AuthReducer';
+import dbReducer from './Reducer/DatabaseReducer';
 
 // epics
 
 import AuthEpic from './Epics/AuthEpics/AuthEpic';
+import DBEpic from './Epics/DBEpic/DBEpic';
+
 
 // const persistedState = loadState();
 const loggerMiddleware = createLogger();
 // Application Reducers
 const rootReducer = combineReducers({
-  authReducer
-
+  authReducer,
+  dbReducer
 });
 
 export const rootEpic = combineEpics(
     AuthEpic.signinUserEpic,
-    AuthEpic.signupUserEpic
+    AuthEpic.signupUserEpic,
+    DBEpic.loadTables,
   // more epics functions go here
 );
 

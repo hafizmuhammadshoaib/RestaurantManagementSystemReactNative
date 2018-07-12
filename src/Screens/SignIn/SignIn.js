@@ -6,7 +6,10 @@ import { connect } from "react-redux";
 import AuthActions from '../../Store/Actions/AuthActions/AuthActions';
 const { height, fontScale, scale, width } = Dimensions.get("window")
 
-class SignIn extends Component {
+
+import DBActions from '../../Store/Actions/DBActions/DBActions';
+
+ class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,6 +23,9 @@ class SignIn extends Component {
         if (nextProps.user) {
             this.props.history.push('/home')
         }
+    }
+    componentDidMount(){
+        // this.props.loadTables();
     }
     inputHandler = (text, name) => {
         let obj = {}
@@ -90,7 +96,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        signInUser: (user) => dispatch(AuthActions.signinUser(user))
+        signInUser:(user)=>dispatch(AuthActions.signinUser(user)),
+        loadTables: () => dispatch(DBActions.loadTables())
     };
 };
 export default connect(

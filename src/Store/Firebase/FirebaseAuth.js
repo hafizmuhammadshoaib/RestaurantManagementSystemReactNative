@@ -1,34 +1,10 @@
 import Firebase from 'react-native-firebase';
+
 const fire = Firebase.auth();
 
 export default class Auth {
     static createUser(userObj) {
-        return fire.createUserWithEmailAndPassword(userObj.email,userObj.password)
-            // .then(user => {
-            //     user.updateProfile({ displayName: userObj.name })
-            //         .then(() => {
-            //             return new Promise((res, rej) => {
-            //                 res({
-            //                     name: user.displayName,
-            //                     email: user.email,
-            //                 });
-            //             })
-            //         })
-            //         .catch(err => {
-            //             return new Promise((res, rej) => {
-            //                 rej({
-            //                     message: err.message
-            //                 });
-            //             })
-            //         })
-            // })
-            // .catch(err => {
-            //     return new Promise((res, rej) => {
-            //         rej({
-            //             message: err.message
-            //         });
-            //     })
-            // })
+        return fire.createUserWithEmailAndPassword(userObj.email,userObj.password);
     }
 
     static loginUser(userObj) {
@@ -37,5 +13,17 @@ export default class Auth {
 
     static updateUserProfile(){
         return fire.createUser.updateProfile({displayName: user.name});
+    }
+
+    static chekUser(){
+        return new Promise((res, rej)=>{
+            fire.onAuthStateChanged(user=>{
+                if(user){
+                    res(user);
+                }else{
+                    rej(null);
+                }
+            })
+        })
     }
 }

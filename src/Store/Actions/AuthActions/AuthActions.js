@@ -22,4 +22,16 @@ export default class AuthActions{
             payload: data
         }
     }
+
+    static checkUser(){
+        return{
+            type: actionTypes.CHEK_USER,
+        }
+    }
+
+    static loadTables(){
+        return{
+            type: actionTypes.LOAD_ALL_TABLES
+        }
+    }
 }
