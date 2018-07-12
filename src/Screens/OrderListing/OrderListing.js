@@ -11,7 +11,11 @@ export default class OrderListing extends Component {
     render() {
         return (
             <View>
-                <Text>Home</Text>
+                <Text>Order Listing
+
+                    {/* {this.props.location.state.table} */}
+
+                </Text>
             </View>
         )
     }

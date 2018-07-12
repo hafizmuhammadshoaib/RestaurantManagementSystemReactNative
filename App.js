@@ -43,10 +43,10 @@ export default class App extends Component {
         </Link>
       </View> */}
 
-            <Route exact path="/" component={Home} />
-            {/* <Route path="/home" component={Home} /> */}
-          {/* <Route exact path="/" component={OrderListing} /> */}
-          <Route path="/home" component={Home} />
+            <Route exact path="/" component={Splash} />
+            <Route path="/home" component={Home} />
+          <Route path="/order" component={OrderListing} />
+          <Route path="/signIn" component={SignIn} />
           </View>
           {/* <Route path="/topics" component={Topics} /> */}
 

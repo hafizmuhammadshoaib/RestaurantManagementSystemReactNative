@@ -21,12 +21,10 @@ import DBActions from '../../Store/Actions/DBActions/DBActions';
     componentWillReceiveProps(nextProps) {
 
         if (nextProps.user) {
-            this.props.history.push('/home')
+            this.props.history.replace('/home')
         }
     }
-    componentDidMount(){
-        // this.props.loadTables();
-    }
+    
     inputHandler = (text, name) => {
         let obj = {}
         obj[name] = text

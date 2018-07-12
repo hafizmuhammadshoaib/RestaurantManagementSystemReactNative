@@ -17,11 +17,12 @@ export default class Auth {
 
     static chekUser(){
         return new Promise((res, rej)=>{
+            console.log("*******","user")
             fire.onAuthStateChanged(user=>{
                 if(user){
                     res(user);
                 }else{
-                    rej(null);
+                    res(null);
                 }
             })
         })

@@ -1,13 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 
 import { Platform, StyleSheet, Text, View, Image, ImageBackground,Dimensions,TextInput } from 'react-native';
 import {Header,Container} from "native-base";
 import BackgroundImage from './BackgroundImage';
+import AuthActions from '../../Store/Actions/AuthActions/AuthActions';
 
 const {height,fontScale,scale,width}=Dimensions.get("window")
-export default class Splash extends Component {
+ class Splash extends Component {
     constructor(props) {
         super(props);
+    }
+    componentDidMount(){
+        this.props.checkUser();
+    }
+    componentWillReceiveProps(nextProps){
+        console.log("user",nextProps.user);
+        if(nextProps.auth.user){
+            this.props.history.replace("/home")
+        }
+        else{
+            this.props.history.replace("/signIn");
+        }
     }
     render() {
         console.log("in splash");
@@ -51,3 +65,21 @@ const styles = StyleSheet.create({
         marginTop:height/2
     }
 });
+const mapStateToProps = state => {
+    console.log(state);
+    return {
+        auth: state.authReducer,
+        isProgress: state.authReducer.isProgress,
+        isError: state.authReducer.isError,
+        errorText: state.authReducer.errorText
+    };
+};
+const mapDispatchToProps = dispatch => {
+    return {
+       checkUser:()=>dispatch(AuthActions.checkUser())
+    };
+};
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Splash);

@@ -7,29 +7,30 @@ let INITIAL_STATE = {
     user: null
 }
 
-export default function authReducer(state = INITIAL_STATE, action){
-    switch(action.type){
+export default function authReducer(state = INITIAL_STATE, action) {
+    switch (action.type) {
         case actionTypes.LOGIN_REQUEST:
-            return Object.assign({}, state, {isProgress: true});
+            return Object.assign({}, state, { isProgress: true });
 
         case actionTypes.LOGIN_REQUEST_SUCCEED:
-            return Object.assign({}, state, {isProgress: false, user: action.payload});
+            return Object.assign({}, state, { isProgress: false, user: action.payload });
 
         case actionTypes.SIGNUP_REQUEST:
-            return Object.assign({}, state, {isProgress: true});
+            return Object.assign({}, state, { isProgress: true });
 
         case actionTypes.SIGNUP_REQUEST_SUCCEED:
-            return Object.assign({}, state, {isProgress: false, user: action.payload});
+            return Object.assign({}, state, { isProgress: false, user: action.payload });
 
         case actionTypes.AUTH_ERROR:
-            return Object.assign({}, state, {isError: true, errorText: action.payload});
+            return Object.assign({}, state, { isError: true, errorText: action.payload });
 
         case actionTypes.SET_ERROR_FALSE:
-            return Object.assign({}, state, {isError: false});
+            return Object.assign({}, state, { isError: false });
 
         case actionTypes.IS_USER_FOUND:
-            return Object.assign({}, state, {user: action.payload});
-
+            return Object.assign({}, state, { user: action.payload });
+        case actionTypes.IS_USER_FOUND_FAIL:
+            return Object.assign({}, state, { user: action.payload });
         default:
             return state;
     }

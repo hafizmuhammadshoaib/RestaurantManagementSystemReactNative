@@ -42,8 +42,18 @@ export default class AuthEpic {
 
     static chekUser(action$) {
         return action$.ofType(actionTypes.CHEK_USER)
+    
             .switchMap(() => {
-                return Observable.fromPromise(Auth.chekUser())
+                console.log("*******","user")
+                return Observable.fromPromise(new Promise((res, rej)=>{
+                    fire.onAuthStateChanged(user=>{
+                        if(user){
+                            res(user);
+                        }else{
+                            res(null);
+                        }
+                    })
+                }))
                     .map(user => {
                         return {
                             type: actionTypes.IS_USER_FOUND,
@@ -53,10 +63,5 @@ export default class AuthEpic {
             })
     }
 
-    static loadTables(action$){
-        return action$.ofType(actionTypes.LOAD_ALL_TABLES)
-                .switchMap(()=>{
-                    return Observable.fromPromise(Auth)
-                })
-    }
+    
 }
