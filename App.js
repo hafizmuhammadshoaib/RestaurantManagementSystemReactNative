@@ -1,58 +1,100 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+// /**
+//  * Sample React Native App
+//  * https://github.com/facebook/react-native
+//  *
+//  * @format
+//  * @flow
+//  */
+
+// import React, { Component } from 'react';
+// import { Platform, StyleSheet, Text, View } from 'react-native';
+// import { NativeRouter, Route, Link } from 'react-router-native';
+// import Splash from "./src/Screens/Splash/Splash";
+// import SignIn from './src/Screens/SignIn/SignIn';
+// import Home from './src/Screens/Home/Home';
+// import OrderListing from './src/Screens/OrderListing/OrderListing';
+// import { Provider } from "react-redux";
+// import { store } from './src/Store/index';
+// import { createStackNavigator } from 'react-navigation';
+
+// export default class App extends Component {
+//   render() {
+//     return (
+//       <Provider store={store} >
+//           <View style={{flex:1}}>
+//             <RootStack />
+//           </View>
+//       </Provider>
+//     );
+//   }
+// }
+
+// const RootStack = createStackNavigator({
+//   splash: Splash,
+//   home: Home,
+//   order: OrderListing,
+//   signIn: SignIn
+// },
+// {
+//   initialRouteName: 'splash'
+// }
+// );
 
 import React, { Component } from 'react';
+
 import { Platform, StyleSheet, Text, View } from 'react-native';
+
 import { NativeRouter, Route, Link } from 'react-router-native';
+
 import Splash from "./src/Screens/Splash/Splash";
+
 import SignIn from './src/Screens/SignIn/SignIn';
+
 import Home from './src/Screens/Home/Home';
+
 import OrderListing from './src/Screens/OrderListing/OrderListing';
+
 import { Provider } from "react-redux";
+
 import { store } from './src/Store/index';
 
+import{  createStackNavigator } from 'react-navigation';
+
+
 export default class App extends Component {
+
   render() {
+
     return (
+
       <Provider store={store} >
-        <NativeRouter>
-          <View style={{flex:1}}>
-            {/* <View style={styles.nav}>
-        <Link
-          to="/"
-          underlayColor='#f0f4f7'
-          style={styles.navItem}>
-            <Text>Home</Text>
-        </Link>
-        <Link
-          to="/about"
-          underlayColor='#f0f4f7'
-          style={styles.navItem}>
-            <Text>About</Text>
-        </Link>
-        <Link
-          to="/topics"
-          underlayColor='#f0f4f7'
-          style={styles.navItem} >
-            <Text>Topics</Text>
-        </Link>
-      </View> */}
 
-            <Route exact path="/" component={Splash} />
-            <Route path="/home" component={Home} />
-          <Route path="/order" component={OrderListing} />
-          <Route path="/signIn" component={SignIn} />
-          </View>
-          {/* <Route path="/topics" component={Topics} /> */}
+      <View style={{flex:1}} >
 
-        </NativeRouter>
+        <RootStack />
+
+        </View>
+
       </Provider>
+
     );
+
   }
+
 }
 
+const RootStack = createStackNavigator({
+
+  splash:Splash,
+
+  signIn:SignIn,
+
+  home:Home,
+
+  order:OrderListing
+
+},{
+
+  initialRouteName:"splash"
+
+});
