@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 
-import { Platform, StyleSheet, Text, View, Image, ImageBackground,Dimensions,TextInput } from 'react-native';
+import { Platform, StyleSheet, Text, View, Image, ImageBackground,Dimensions,TextInput,StatusBar } from 'react-native';
 import {Header,Container} from "native-base";
 import BackgroundImage from './BackgroundImage';
 import AuthActions from '../../Store/Actions/AuthActions/AuthActions';
@@ -17,17 +17,21 @@ const {height,fontScale,scale,width}=Dimensions.get("window")
     componentWillReceiveProps(nextProps){
         console.log("user",nextProps.user);
         if(nextProps.auth.user){
-            this.props.history.replace("/home")
+            this.props.navigation.navigate('home')
         }
         else{
-            this.props.history.replace("/signIn");
+            this.props.navigation.navigate('signIn')
         }
+    }
+    static navigationOptions = {
+        header: null
     }
     render() {
         console.log("in splash");
         return (
             <View>
-                <Header style={{display:"none",}} androidStatusBarColor="#000" ></Header>
+                {/* <Header style={{display:"none",}} androidStatusBarColor="#000" ></Header> */}
+                <StatusBar backgroundColor="#000" />
             <ImageBackground source={require('./background.jpg')} style={styles.container}>
                 
                 <Text style={styles.text}  >KOLACHI</Text>

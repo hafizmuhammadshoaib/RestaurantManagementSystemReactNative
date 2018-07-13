@@ -15,44 +15,35 @@ import Home from './src/Screens/Home/Home';
 import OrderListing from './src/Screens/OrderListing/OrderListing';
 import { Provider } from "react-redux";
 import { store } from './src/Store/index';
+import { createStackNavigator, StackNavigator } from 'react-navigation';
 
 export default class App extends Component {
   render() {
     return (
       <Provider store={store} >
-        <NativeRouter>
-          <View style={{flex:1}}>
-            {/* <View style={styles.nav}>
-        <Link
-          to="/"
-          underlayColor='#f0f4f7'
-          style={styles.navItem}>
-            <Text>Home</Text>
-        </Link>
-        <Link
-          to="/about"
-          underlayColor='#f0f4f7'
-          style={styles.navItem}>
-            <Text>About</Text>
-        </Link>
-        <Link
-          to="/topics"
-          underlayColor='#f0f4f7'
-          style={styles.navItem} >
-            <Text>Topics</Text>
-        </Link>
-      </View> */}
-
-            <Route exact path="/" component={Splash} />
-            <Route path="/home" component={Home} />
-          <Route path="/order" component={OrderListing} />
-          <Route path="/signIn" component={SignIn} />
-          </View>
-          {/* <Route path="/topics" component={Topics} /> */}
-
-        </NativeRouter>
+        <View style={{ flex: 1 }} >
+          <RootStack />
+        </View>
       </Provider>
     );
   }
 }
+const RootStack = createStackNavigator({
+  splash: Splash,
+  signIn: SignIn,
+  home: Home,
+  order: OrderListing
+}, {
+    initialRouteName: "splash",
+    navigationOptions: {
+      title: 'Kolachi',
+      headerStyle: {
+        backgroundColor: "#C72928"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    }
+  });
 
