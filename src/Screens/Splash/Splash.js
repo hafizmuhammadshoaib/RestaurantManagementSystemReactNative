@@ -28,16 +28,15 @@ class Splash extends Component {
             this.props.navigation.navigate("signIn");
         }
     }
+    static navigationOptions = {
+        header: null
+    }
     render() {
         console.log("in splash");
         return (
             <View>
-                <StatusBar
-                    backgroundColor="transparent"
-                    // barStyle="light-content"
-                    // hidden={true}
-                />
-                <Header style={{ display: "none", }} androidStatusBarColor="#000" ></Header>
+                {/* <Header style={{display:"none",}} androidStatusBarColor="#000" ></Header> */}
+                <StatusBar backgroundColor="#000" />
                 <ImageBackground source={require('./background.jpg')} style={styles.container}>
 
                     <Text style={styles.text}  >KOLACHI</Text>

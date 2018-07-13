@@ -60,7 +60,6 @@ import { store } from './src/Store/index';
 
 import{  createStackNavigator } from 'react-navigation';
 
-
 export default class App extends Component {
 
   render() {
@@ -68,13 +67,9 @@ export default class App extends Component {
     return (
 
       <Provider store={store} >
-
-      <View style={{flex:1}} >
-
-        <RootStack />
-
+        <View style={{ flex: 1 }} >
+          <RootStack />
         </View>
-
       </Provider>
 
     );
@@ -82,19 +77,22 @@ export default class App extends Component {
   }
 
 }
-
 const RootStack = createStackNavigator({
+  splash: Splash,
+  signIn: SignIn,
+  home: Home,
+  order: OrderListing
+}, {
+    initialRouteName: "splash",
+    navigationOptions: {
+      title: 'Kolachi',
+      headerStyle: {
+        backgroundColor: "#C72928"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    }
+  });
 
-  splash:Splash,
-
-  signIn:SignIn,
-
-  home:Home,
-
-  order:OrderListing
-
-},{
-
-  initialRouteName:"splash"
-
-});

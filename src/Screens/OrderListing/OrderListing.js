@@ -5,14 +5,6 @@ import { Card, CardItem, Container, Header, Content, Tab, Tabs, List, ListItem }
 const { width, height } = Dimensions.get('window');
 let tableName = undefined;
 
-const array = [
-    "malai tikka",
-    "tikka",
-    "qorma",
-    "biryani",
-    "parhanta"
-]
-
 class OrderListing extends Component {
     constructor(props) {
         super(props);

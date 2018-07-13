@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Form, Input, Text, Item, Button, Card, CardItem, Left, Body, Right, Footer } from "native-base";
-import { Platform, StyleSheet, View, TextInput, Dimensions, ListView, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, View, TextInput, Dimensions, ListView, Image, ScrollView,TouchableOpacity,StatusBar } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DBActions from "../../Store/Actions/DBActions/DBActions";
@@ -29,6 +29,7 @@ class Home extends Component {
 
                     <Right />
                 </Header> */}
+                <StatusBar backgroundColor="#B71D1D" />
                 <ScrollView style={{ flexWrap: "wrap", height: height }} >
                     <View style={{
                         flexDirection: 'row',
@@ -39,7 +40,7 @@ class Home extends Component {
                             (!this.props.tables) ? null :
                                 this.props.tables.map((value) => {
 
-                                    return (<TouchableOpacity style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={() => { this.props.navigation.navigate('order', { tableName: value.key }) }}  >
+                                    return (<TouchableOpacity style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={()=>{this.props.navigation.navigate('order',{tableName:value.key})}}  >
                                         <Card   >
 
                                             <CardItem style={{ justifyContent: "center", shadowColor: "#C3C5C7", }} >
