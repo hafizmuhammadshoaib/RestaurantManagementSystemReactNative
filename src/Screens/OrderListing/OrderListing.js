@@ -5,6 +5,12 @@ import { Card, CardItem, Container, Header, Content, Tab, Tabs, List, ListItem }
 const { width, height } = Dimensions.get('window');
 let tableName = undefined;
 
+const color = {
+    'cooking': '#f7a928',
+    'queued': '#57a665',
+    'delivered': '#b33d27'
+}
+
 class OrderListing extends Component {
     constructor(props) {
         super(props);
@@ -122,7 +128,7 @@ class OrderListing extends Component {
                         null
                         :
                         <Tabs >
-                            <Tab heading="ALL">
+                            <Tab activeTabStyle={{backgroundColor: 'red'}} tabStyle={{backgroundColor: 'red'}} textStyle={{color: '#fff'}} heading="ALL">
                                 <View style={{ flex: 1 }}>
                                     {
                                         this.props.tables[tableIndex].Orders[this.state.orderId].items.map(item => {
@@ -134,7 +140,9 @@ class OrderListing extends Component {
                                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                                                             <View>
                                                                 <Text>Item:  {item.item}</Text>
-                                                                <Text>Status:  {item.status}</Text>
+                                                                <View style={{ alignSelf: 'flex-start' }}>
+                                                                    <Text style={[styles.statusStyle, {backgroundColor: color[item.status]}]}>{item.status}</Text>
+                                                                </View>
                                                             </View>
                                                             <View>
                                                                 <Text>Qty {item.qty}</Text>
@@ -150,15 +158,15 @@ class OrderListing extends Component {
 
                                 </View>
                             </Tab>
-                            <Tab heading="Tab2">
+                            <Tab heading="Tab2" activeTabStyle={{backgroundColor: 'red'}} tabStyle={{backgroundColor: 'red'}} textStyle={{color: '#fff'}}>
                                 <Text>
                                     Tab1
-                        </Text>
+                                </Text>
                             </Tab>
-                            <Tab heading="Tab3">
+                            <Tab heading="Tab3" activeTabStyle={{backgroundColor: 'red'}} tabStyle={{backgroundColor: 'red'}} textStyle={{color: '#fff'}}>
                                 <Text>
                                     Tab1
-                        </Text>
+                                </Text>
                             </Tab>
                         </Tabs>
                 }
@@ -181,4 +189,13 @@ let mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(OrderListing)
 
 const styles = StyleSheet.create({
-})
+    statusStyle: {
+        color: '#fff',
+        backgroundColor: "#f7a825",
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        borderRadius: 3,
+        marginTop: 7,
+        // fontWeight: '600'
+    },
+});
