@@ -58,7 +58,7 @@ import { Provider } from "react-redux";
 
 import { store } from './src/Store/index';
 
-import{  createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 export default class App extends Component {
 
@@ -95,4 +95,17 @@ const RootStack = createStackNavigator({
       }
     }
   });
+const prevGetStateForActionHomeStack = RootStack.router.getStateForAction;
+RootStack.router.getStateForAction = (action, state) => {
+  if (state && action.type === 'ReplaceCurrentScreen') {
+    const routes = state.routes.slice(0, state.routes.length - 1);
+    routes.push(action);
+    return {
+      ...state,
+      routes,
+      index: routes.length - 1,
+    };
+  }
+  return prevGetStateForActionHomeStack(action, state);
+};
 

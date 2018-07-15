@@ -38,12 +38,12 @@ class Home extends Component {
 
                         {
                             (!this.props.tables) ? null :
-                                this.props.tables.map((value) => {
+                                this.props.tables.map((value,index) => {
 
-                                    return (<TouchableOpacity style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={()=>{this.props.navigation.navigate('order',{tableName:value.key})}}  >
+                                    return (<TouchableOpacity key={index} style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={()=>{this.props.navigation.navigate('order',{tableName:value.key})}}  >
                                         <Card   >
 
-                                            <CardItem style={{ justifyContent: "center", shadowColor: "#C3C5C7", }} >
+                                            <CardItem  style={{ justifyContent: "center", shadowColor: "#C3C5C7", }} >
                                                 <Text style={{ fontSize: fontScale * 30, fontWeight: "bold", padding: 10 }}  >{value.key}</Text>
 
                                             </CardItem>

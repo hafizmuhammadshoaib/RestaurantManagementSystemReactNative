@@ -20,7 +20,8 @@ class SignIn extends Component {
     componentWillReceiveProps(nextProps) {
 
         if (nextProps.user) {
-            this.props.navigation.navigate('home')
+            // this.props.navigation.navigate('home')
+            this.replaceScreen('home');
         }
     }
 
@@ -38,6 +39,15 @@ class SignIn extends Component {
         console.log(obj);
         this.props.signInUser(obj);
     }
+    replaceScreen = (route) => {
+        // const { locations, position } = this.props.navigation.state.params;
+        this.props.navigation.dispatch({
+            type: 'ReplaceCurrentScreen',
+            key: `${route}`,
+            routeName: `${route}`,
+            // params: { locations, position },
+        });
+    };
     render() {
 
         return (

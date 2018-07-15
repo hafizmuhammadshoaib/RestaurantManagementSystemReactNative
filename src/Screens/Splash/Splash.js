@@ -22,15 +22,27 @@ class Splash extends Component {
     componentWillReceiveProps(nextProps) {
         console.log("user", nextProps.user);
         if (nextProps.auth.user) {
-            this.props.navigation.navigate("home")
+            // this.props.navigation.navigate("home")
+            this.replaceScreen('home');
         }
         else {
-            this.props.navigation.navigate("signIn");
+            // this.props.navigation.navigate("signIn");
+            this.replaceScreen('signIn');
         }
     }
     static navigationOptions = {
         header: null
     }
+
+     replaceScreen = (route) => {
+        // const { locations, position } = this.props.navigation.state.params;
+        this.props.navigation.dispatch({
+            type: 'ReplaceCurrentScreen',
+            key: `${route}`,
+            routeName: `${route}`,
+            // params: { locations, position },
+        });
+    };
     render() {
         console.log("in splash");
         return (
@@ -88,6 +100,7 @@ const mapDispatchToProps = dispatch => {
         checkUser: () => dispatch(AuthActions.checkUser())
     };
 };
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
