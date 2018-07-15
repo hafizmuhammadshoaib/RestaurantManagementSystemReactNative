@@ -127,8 +127,8 @@ class OrderListing extends Component {
                     this.state.orderId === undefined ?
                         null
                         :
-                        <Tabs >
-                            <Tab activeTabStyle={{backgroundColor: 'red'}} tabStyle={{backgroundColor: 'red'}} textStyle={{color: '#fff'}} heading="ALL">
+                        <Tabs>
+                            <Tab activeTabStyle={{ backgroundColor: 'red' }} tabStyle={{ backgroundColor: 'red' }} textStyle={{ color: '#fff' }} heading="ALL">
                                 <View style={{ flex: 1 }}>
                                     {
                                         this.props.tables[tableIndex].Orders[this.state.orderId].items.map(item => {
@@ -141,7 +141,7 @@ class OrderListing extends Component {
                                                             <View>
                                                                 <Text>Item:  {item.item}</Text>
                                                                 <View style={{ alignSelf: 'flex-start' }}>
-                                                                    <Text style={[styles.statusStyle, {backgroundColor: color[item.status]}]}>{item.status}</Text>
+                                                                    <Text style={[styles.statusStyle, { backgroundColor: color[item.status] }]}>{item.status}</Text>
                                                                 </View>
                                                             </View>
                                                             <View>
@@ -154,19 +154,93 @@ class OrderListing extends Component {
                                         })
                                     }
                                 </View>
-                                <View>
+                            </Tab>
+                            <Tab heading="Queued" activeTabStyle={{ backgroundColor: 'red' }} tabStyle={{ backgroundColor: 'red' }} textStyle={{ color: '#fff' }}>
+                                <View style={{ flex: 1 }}>
+                                    <List>
+                                        {
+                                            this.props.tables[tableIndex].Orders[this.state.orderId].items.map(item => {
+                                                // orderArray[0].items.map(item => {
+                                                if (item.status === 'queued') {
+                                                    return (
+                                                        <ListItem>
 
+                                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                                <View>
+                                                                    <Text>Item:  {item.item}</Text>
+                                                                    <View style={{ alignSelf: 'flex-start' }}>
+                                                                        <Text style={[styles.statusStyle, { backgroundColor: color[item.status] }]}>{item.status}</Text>
+                                                                    </View>
+                                                                </View>
+                                                                <View>
+                                                                    <Text>Qty {item.qty}</Text>
+                                                                </View>
+                                                            </View>
+                                                        </ListItem>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </List>
                                 </View>
                             </Tab>
-                            <Tab heading="Tab2" activeTabStyle={{backgroundColor: 'red'}} tabStyle={{backgroundColor: 'red'}} textStyle={{color: '#fff'}}>
-                                <Text>
-                                    Tab1
-                                </Text>
+                            <Tab heading="Cooking" activeTabStyle={{ backgroundColor: 'red' }} tabStyle={{ backgroundColor: 'red' }} textStyle={{ color: '#fff' }}>
+                                <View style={{ flex: 1 }}>
+                                    <List>
+                                        {
+                                            this.props.tables[tableIndex].Orders[this.state.orderId].items.map(item => {
+                                                // orderArray[0].items.map(item => {
+                                                if (item.status === 'cooking') {
+                                                    return (
+                                                        <ListItem>
+
+                                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                                <View>
+                                                                    <Text>Item:  {item.item}</Text>
+                                                                    <View style={{ alignSelf: 'flex-start' }}>
+                                                                        <Text style={[styles.statusStyle, { backgroundColor: color[item.status] }]}>{item.status}</Text>
+                                                                    </View>
+                                                                </View>
+                                                                <View>
+                                                                    <Text>Qty {item.qty}</Text>
+                                                                </View>
+                                                            </View>
+                                                        </ListItem>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </List>
+                                </View>
                             </Tab>
-                            <Tab heading="Tab3" activeTabStyle={{backgroundColor: 'red'}} tabStyle={{backgroundColor: 'red'}} textStyle={{color: '#fff'}}>
-                                <Text>
-                                    Tab1
-                                </Text>
+                            <Tab heading="Deliverd" activeTabStyle={{ backgroundColor: 'red' }} tabStyle={{ backgroundColor: 'red' }} textStyle={{ color: '#fff' }}>
+                                <View style={{ flex: 1 }}>
+                                    <List>
+                                        {
+                                            this.props.tables[tableIndex].Orders[this.state.orderId].items.map(item => {
+                                                // orderArray[0].items.map(item => {
+                                                if (item.status === 'delivered') {
+                                                    return (
+                                                        <ListItem>
+
+                                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                                <View>
+                                                                    <Text>Item:  {item.item}</Text>
+                                                                    <View style={{ alignSelf: 'flex-start' }}>
+                                                                        <Text style={[styles.statusStyle, { backgroundColor: color[item.status] }]}>{item.status}</Text>
+                                                                    </View>
+                                                                </View>
+                                                                <View>
+                                                                    <Text>Qty {item.qty}</Text>
+                                                                </View>
+                                                            </View>
+                                                        </ListItem>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </List>
+                                </View>
                             </Tab>
                         </Tabs>
                 }
