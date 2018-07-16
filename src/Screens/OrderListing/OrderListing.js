@@ -113,7 +113,7 @@ class OrderListing extends Component {
                                             <View
                                             >
                                                 <Text>
-                                                    {orderKeyArray[i++]}
+                                                    {orderKeyArray[index]}
                                                 </Text>
                                             </View>
                                         </CardItem>

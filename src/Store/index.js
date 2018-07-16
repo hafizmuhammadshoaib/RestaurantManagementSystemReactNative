@@ -23,7 +23,8 @@ export const rootEpic = combineEpics(
     AuthEpic.signinUserEpic,
     AuthEpic.signupUserEpic,
     DBEpic.loadTables,
-    AuthEpic.chekUser
+    AuthEpic.chekUser,
+    DBEpic.loadMenu
   // more epics functions go here
 );
 

@@ -19,4 +19,15 @@ export default class DBActions{
             type: action
         }
     }
+    static loadMenu(){
+        return{
+            type:actionTypes.LOAD_MENU_PROGRESS
+        }
+    }
+    static loadMenuError(msg){
+        return{
+            type:actionTypes.LOAD_MENU_ERROR,
+            payload:msg
+        }
+    }
 }

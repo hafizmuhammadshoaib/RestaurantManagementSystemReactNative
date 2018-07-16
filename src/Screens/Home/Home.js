@@ -14,7 +14,8 @@ class Home extends Component {
         super(props);
     }
     componentDidMount() {
-        this.props.loadTables();
+        // this.props.loadTables();
+        this.props.loadMenu()
     }
 
 
@@ -131,12 +132,14 @@ const mapStateToProps = state => {
         isProgress: state.authReducer.isProgress,
         isError: state.authReducer.isError,
         errorText: state.authReducer.errorText,
-        tables: state.dbReducer.tables
+        tables: state.dbReducer.tables,
+        menu:state.dbReducer.menu
     };
 };
 const mapDispatchToProps = dispatch => {
     return {
-        loadTables: () => dispatch(DBActions.loadTables())
+        loadTables: () => dispatch(DBActions.loadTables()),
+        loadMenu:()=>dispatch(DBActions.loadMenu())
     };
 };
 export default connect(

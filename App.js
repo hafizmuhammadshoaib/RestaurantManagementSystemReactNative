@@ -60,6 +60,7 @@ import { store } from './src/Store/index';
 
 import { createStackNavigator } from 'react-navigation';
 
+import Menu from './src/Screens/Menu/Menu';
 export default class App extends Component {
 
   render() {
@@ -81,9 +82,10 @@ const RootStack = createStackNavigator({
   splash: Splash,
   signIn: SignIn,
   home: Home,
-  order: OrderListing
+  order: OrderListing,
+  menu:Menu
 }, {
-    initialRouteName: "splash",
+    initialRouteName: "menu",
     navigationOptions: {
       title: 'Kolachi',
       headerStyle: {

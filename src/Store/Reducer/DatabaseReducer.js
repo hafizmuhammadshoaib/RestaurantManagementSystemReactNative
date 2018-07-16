@@ -4,7 +4,8 @@ let INITIAL_STATE = {
     isProgress: false,
     isError: false,
     errorText: "",
-    tables: null
+    tables: null,
+    menu:[]
 }
 
 export default function dbReducer(state = INITIAL_STATE, action) {
@@ -20,6 +21,14 @@ export default function dbReducer(state = INITIAL_STATE, action) {
 
         case actionTypes.LOAD_ALL_TABLES_ERROR_TRUE:
             return Object.assign({}, state, {isError: true});
+
+
+        case actionTypes.LOAD_MENU_PROGRESS:
+        return Object.assign({},state,{isProgress:true})
+        case actionTypes.LOAD_MENU_SUCCESS:
+        return Object.assign({},state,{isProgress:false,menu:action.payload})
+        case actionTypes.LOAD_MENU_ERROR:
+        return Object.assign({},state,{isProgress:false,isError:true,errorText:action.payload})
 
         default:
             return state;
