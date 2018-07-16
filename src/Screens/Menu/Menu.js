@@ -36,11 +36,17 @@ class Menu extends Component {
             console.log("inside else state",this.state.countingObjects[itemName])
         }
     }
-    shouldComponentUpdate(newProps,newState){
-        console.log("newProps",newProps);
-        console.log("newState",newState);
-        return true;
+    itemCounterSub=(itemName)=>{
+        if(this.countingObjects[itemName]==undefined || this.countingObjects[itemName]==0){
+            this.countingObjects[itemName]=0
+            this.setState({countingObjects:this.countingObjects})
+        }
+        else{
+            this.countingObjects[itemName]=this.countingObjects[itemName]-1;
+            this.setState({countingObjects:this.countingObjects})
+        }
     }
+    
 
     render() {
 
@@ -55,16 +61,16 @@ class Menu extends Component {
                         </CardItem>
                     </Card>
                 </View>
-                <List dataArray={this.props.menu} extraData={this.state} 
-                    renderRow={(item, sectionID, rowID, higlightRow) => <View key={rowID} >
+                <FlatList data={this.props.menu} extraData={this.state} 
+                    renderItem={({item, index}) => <View key={index} >
                         <Text style={{ padding: 10, fontWeight: "bold", fontSize: fontScale * 20, backgroundColor: "#FEF8E8" }} > {item.menuSection} </Text>
-                        <List dataArray={item.items} style={{ backgroundColor: "#ffffff" }}
-                            renderRow={(item, sectionID, rowID, higlightRow) => (<ListItem style={{ justifyContent: "space-between" }} key={rowID} >
+                        <FlatList data={item.items} style={{ backgroundColor: "#ffffff" }}
+                            renderItem={({item,index}) => (<ListItem style={{ justifyContent: "space-between" }} key={index} >
                                 <Text>{item.name}</Text>
                                 <View style={{ flexDirection: "row", alignItems: "center", }} >
                                     <Button onPress={()=>{this.itemCounterPlus(item.name)}} title=" + " color="#BA1F1F" />
-                                    <Text style={{ padding: 10, fontWeight: "bold", color: "#CC6C6A" }} >{`item: ${this.state.countingObjects[item.name]}`}</Text>
-                                    <Button title=" - " color="#BA1F1F" />
+                                    <Text style={{ padding: 10, fontWeight: "bold", color: "#CC6C6A" }} >{(this.state.countingObjects[item.name]==undefined)?"0":this.state.countingObjects[item.name]}</Text>
+                                    <Button title=" - " color="#BA1F1F" onPress={()=>{this.itemCounterSub(item.name)}} />
                                 </View>
                             </ListItem>)}
                         />
