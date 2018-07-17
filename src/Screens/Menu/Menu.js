@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View, TextInput, Dimensions, Text, StatusBar, FlatList, Button, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, View, TextInput, Dimensions, Text, StatusBar, FlatList, Button,TouchableOpacity } from 'react-native';
 import { Container, Header, Content, Form, Input, Item, Icon, Card, CardItem, Body, Spinner, List, ListItem } from "native-base";
 import { connect } from "react-redux";
 import AuthActions from '../../Store/Actions/AuthActions/AuthActions';
@@ -76,7 +76,7 @@ class Menu extends Component {
                 console.log(this.orderArray);
             }
         }
-        this.props.navigation.navigate('confirmorder',{state: this.orderArray});
+        this.props.navigation.navigate('confirmOrder',{state: this.orderArray});
         this.orderArray = [];
     }
 
@@ -128,7 +128,6 @@ class Menu extends Component {
                                                                 '0'
                                                                 :
                                                                 this.state.countingObjects[data.name].count
-
                                                         }
                                                     </Text>
                                                     <TouchableOpacity style={{ padding: 10, backgroundColor: '#eee' }} onPress={() => this.updateCounter(data.name, data.price)}>
@@ -143,7 +142,6 @@ class Menu extends Component {
                                 }
                                 <ListItem>
                                     <Text>
-
                                     </Text>
                                 </ListItem>
                             </View>
