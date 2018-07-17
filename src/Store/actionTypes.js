@@ -26,6 +26,10 @@ export default actionTypes = {
     LOAD_MENU_ERROR:'LOAD_MENU_ERROR',
 
     PUSH_DONE_ORDER: 'PUSH_DONE_ORDER',
+
+    SET_TABLE_ID : 'SET_TABLE_ID',
+    SET_ORDER_ID : 'SET_ORDER_ID',
+
     
 
 }

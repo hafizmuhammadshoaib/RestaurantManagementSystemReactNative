@@ -37,4 +37,18 @@ export default class DBActions{
             payload: orderObj
         }
     }
+
+    static setTableID(data){
+        return{
+            type: actionTypes.SET_TABLE_ID,
+            payload: data
+        }
+    }
+
+    static setOrderID(data){
+        return{
+            type: actionTypes.SET_ORDER_ID,
+            payload: data
+        }
+    }
 }

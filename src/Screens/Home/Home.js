@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Form, Input, Text, Item, Button, Card, CardItem, Left, Body, Right, Footer } from "native-base";
-import { Platform, StyleSheet, View, TextInput, Dimensions, ListView, Image, ScrollView,TouchableOpacity,StatusBar } from 'react-native';
+import { Platform, StyleSheet, View, TextInput, Dimensions, ListView, Image, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DBActions from "../../Store/Actions/DBActions/DBActions";
@@ -8,14 +8,18 @@ import { connect } from "react-redux";
 
 const { height, fontScale, scale, width } = Dimensions.get("window");
 
+const colors = {
+    free: "#5aaf79",
+    occupied: '#0278be'
+}
 
 class Home extends Component {
     constructor(props) {
         super(props);
     }
     componentDidMount() {
-        // this.props.loadTables();
-        this.props.loadMenu()
+        this.props.loadTables();
+        // this.props.loadMenu()
     }
 
 
@@ -39,14 +43,12 @@ class Home extends Component {
 
                         {
                             (!this.props.tables) ? null :
-                                this.props.tables.map((value,index) => {
-
-                                    return (<TouchableOpacity key={index} style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={()=>{this.props.navigation.navigate('order',{tableName:value.key})}}  >
-                                        <Card   >
-
-                                            <CardItem  style={{ justifyContent: "center", shadowColor: "#C3C5C7", }} >
-                                                <Text style={{ fontSize: fontScale * 30, fontWeight: "bold", padding: 10 }}  >{value.key}</Text>
-
+                                this.props.tables.map((value, index) => {
+                                    console.log('value: ***************/////**', value);
+                                    return (<TouchableOpacity key={index} style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={() => { this.props.navigation.navigate(value.status == 'occupied' ? 'order' : 'menu', { tableName: value.key }) }}>
+                                        <Card style={{ backgroundColor: colors[value.status] }}>
+                                            <CardItem style={{ backgroundColor: colors[value.status], justifyContent: "center", shadowColor: "#C3C5C7", }} >
+                                                <Text style={{ color: '#fff', fontSize: fontScale * 30, fontWeight: "bold", padding: 10 }}  >{value.key}</Text>
                                             </CardItem>
                                             <View
                                                 style={{
@@ -56,22 +58,18 @@ class Home extends Component {
                                                     alignSelf: "center"
                                                 }}
                                             />
-
-                                            <CardItem style={{ padding: 0, margin: 0, justifyContent: "space-between", }} >
-
+                                            <CardItem style={{ backgroundColor: colors[value.status], padding: 0, margin: 0, justifyContent: "space-between", }} >
                                                 <Image source={require('./seat.png')} />
-                                                <View>
-                                                    <Text>Total</Text>
-                                                    <Text style={{ fontSize: fontScale * 15, fontWeight: "bold" }} >{`Seats ${value.seats}`}</Text>
-
+                                                <View style={{ paddingRight: fontScale * 25 }}>
+                                                    <Text style={{ color: '#fff' }}>Total</Text>
+                                                    <Text style={{ color: '#fff', fontSize: fontScale * 15, fontWeight: "bold", alignSelf: 'flex-start' }} >{`Seats ${value.seats}`}</Text>
                                                 </View>
-
                                             </CardItem>
-                                            <CardItem style={{ padding: 0, margin: 0, justifyContent: "space-between" }}>
+                                            <CardItem style={{ backgroundColor: colors[value.status], padding: 0, margin: 0, justifyContent: "space-between" }}>
                                                 <Image source={require('./timer.png')} />
                                                 <View  >
-                                                    <Text>Free Since</Text>
-                                                    <Text style={{ fontSize: fontScale * 15, fontWeight: "bold" }} >10:08 PM</Text>
+                                                    <Text style={{ color: '#fff' }}>Free Since</Text>
+                                                    <Text style={{ color: '#fff', fontSize: fontScale * 15, fontWeight: "bold" }} >10:08 PM</Text>
                                                 </View>
                                             </CardItem>
 
@@ -133,13 +131,13 @@ const mapStateToProps = state => {
         isError: state.authReducer.isError,
         errorText: state.authReducer.errorText,
         tables: state.dbReducer.tables,
-        menu:state.dbReducer.menu
+        menu: state.dbReducer.menu
     };
 };
 const mapDispatchToProps = dispatch => {
     return {
         loadTables: () => dispatch(DBActions.loadTables()),
-        loadMenu:()=>dispatch(DBActions.loadMenu())
+        loadMenu: () => dispatch(DBActions.loadMenu())
     };
 };
 export default connect(

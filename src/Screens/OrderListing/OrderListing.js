@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform, StyleSheet, Text, View, Image, ImageBackground, Dimensions, TextInput, FlatList, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, Text, View, Image, ImageBackground, Dimensions, TextInput, FlatList, TouchableOpacity, Button } from 'react-native';
 import { Card, CardItem, Container, Header, Content, Tab, Tabs, List, ListItem } from "native-base";
-const { width, height } = Dimensions.get('window');
+// const { width, height } = Dimensions.get('window');
 let tableName = undefined;
+const { height, fontScale, scale, width } = Dimensions.get("window");
+import DBActions from "../../Store/Actions/DBActions/DBActions";
+
 
 const color = {
     'cooking': '#f7a928',
@@ -19,6 +22,7 @@ class OrderListing extends Component {
             orderId: undefined
         }
         tableName = this.props.navigation.getParam('tableName');
+        this.props.setTableId(tableName);
         tableIndex = this.props.tables.findIndex(element => tableName === element.key);
         orderArray = Object.values(this.props.tables[tableIndex].Orders);
         orderKeyArray = Object.keys(this.props.tables[tableIndex].Orders);
@@ -28,13 +32,22 @@ class OrderListing extends Component {
         headerStyle: {
             backgroundColor: '#212121',
             width: width * 1
-        }
+        },
+
     }
 
 
     static navigationOptions = ({ navigation }) => {
+        console.log('this  : ', this);
         return {
-            title: navigation.getParam('tableName')
+            title: navigation.getParam('tableName'),
+            headerRight: (
+                <TouchableOpacity style={{ flex: 1, justifyContent: 'space-between', height: height * 1 / 20, marginRight: width * 1 / 15 }} onPress={() => { navigation.navigate('menu', { orderArray: this.orderArray }) }}>
+                    <Text style={{ fontSize: fontScale * 12, backgroundColor: '#fff', borderRadius: 500, color: '#fff', height: 7, width: 7, textAlignVertical: 'center', textAlign: 'center' }}></Text>
+                    <Text style={{ fontSize: fontScale * 12, backgroundColor: '#fff', borderRadius: 500, color: '#fff', height: 7, width: 7, textAlignVertical: 'center', textAlign: 'center' }}></Text>
+                    <Text style={{ fontSize: fontScale * 12, backgroundColor: '#fff', borderRadius: 500, color: '#fff', height: 7, width: 7, textAlignVertical: 'center', textAlign: 'center' }}></Text>
+                </TouchableOpacity>
+            ),
         };
     };
 
@@ -55,9 +68,10 @@ class OrderListing extends Component {
     }
 
     render() {
-        
+
         // tableName = `${this.props.navigation.getParam('tableName')}`;
         // alert(orderArray)
+        console.log(orderArray);
         return (
             <View style={{ flex: 1 }}>
                 <FlatList
@@ -66,6 +80,7 @@ class OrderListing extends Component {
                     data={orderArray}
                     keyExtractor={(item, index) => index}
                     renderItem={({ item, index }) => {
+                        this.props.setOrderId(orderKeyArray[index]);
                         return (
                             <TouchableOpacity onPress={() => this.setOrderId(orderKeyArray[index])} style={{ width: width * 0.5, height: height * 0.38 }}>
                                 <View style={{ width: width * 0.5, height: height * 0.38 }}>
@@ -256,7 +271,8 @@ let mapStateToProps = (state) => {
 }
 let mapDispatchToProps = (dispatch) => {
     return {
-
+        setTableId: (tableId) => dispatch(DBActions.setTableID(tableId)),
+        setOrderId: (orderId) => dispatch(DBActions.setOrderID(orderId)),
     }
 }
 
