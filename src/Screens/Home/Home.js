@@ -8,6 +8,10 @@ import { connect } from "react-redux";
 
 const { height, fontScale, scale, width } = Dimensions.get("window");
 
+const colors = {
+    free: "#5aaf79",
+    occupied: '#0278be'
+}
 
 class Home extends Component {
     constructor(props) {
@@ -16,16 +20,6 @@ class Home extends Component {
     componentDidMount() {
         this.props.loadTables();
         // this.props.loadMenu()
-    }
-    navigateToAnotherScreen=(status, tableKey)=> {
-        console.log("/////////",status)
-        if (status == "occupied") {
-            this.props.navigation.navigate('order', { tableName: tableKey })
-        }
-        else{
-            this.props.navigation.navigate('menu');
-        }
-        // this.props.navigation.navigate('menu');
     }
 
     render() {
@@ -49,13 +43,11 @@ class Home extends Component {
                         {
                             (!this.props.tables) ? null :
                                 this.props.tables.map((value, index) => {
-
-                                    return (<TouchableOpacity key={index} style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={() => { this.navigateToAnotherScreen(value.status,value.key)}}  >
-                                        <Card   >
-
-                                            <CardItem style={{ justifyContent: "center", shadowColor: "#C3C5C7", }} >
-                                                <Text style={{ fontSize: fontScale * 30, fontWeight: "bold", padding: 10 }}  >{value.key}</Text>
-
+                                    console.log('value: ***************/////**', value);
+                                    return (<TouchableOpacity key={index} style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={() => { this.props.navigation.navigate(value.status == 'occupied' ? 'order' : 'menu', { tableName: value.key }) }}>
+                                        <Card style={{ backgroundColor: colors[value.status] }}>
+                                            <CardItem style={{ backgroundColor: colors[value.status], justifyContent: "center", shadowColor: "#C3C5C7", }} >
+                                                <Text style={{ color: '#fff', fontSize: fontScale * 30, fontWeight: "bold", padding: 10 }}  >{value.key}</Text>
                                             </CardItem>
                                             <View
                                                 style={{
@@ -65,22 +57,18 @@ class Home extends Component {
                                                     alignSelf: "center"
                                                 }}
                                             />
-
-                                            <CardItem style={{ padding: 0, margin: 0, justifyContent: "space-between", }} >
-
+                                            <CardItem style={{ backgroundColor: colors[value.status], padding: 0, margin: 0, justifyContent: "space-between", }} >
                                                 <Image source={require('./seat.png')} />
-                                                <View>
-                                                    <Text>Total</Text>
-                                                    <Text style={{ fontSize: fontScale * 15, fontWeight: "bold" }} >{`Seats ${value.seats}`}</Text>
-
+                                                <View style={{ paddingRight: fontScale * 25 }}>
+                                                    <Text style={{ color: '#fff' }}>Total</Text>
+                                                    <Text style={{ color: '#fff', fontSize: fontScale * 15, fontWeight: "bold", alignSelf: 'flex-start' }} >{`Seats ${value.seats}`}</Text>
                                                 </View>
-
                                             </CardItem>
-                                            <CardItem style={{ padding: 0, margin: 0, justifyContent: "space-between" }}>
+                                            <CardItem style={{ backgroundColor: colors[value.status], padding: 0, margin: 0, justifyContent: "space-between" }}>
                                                 <Image source={require('./timer.png')} />
                                                 <View  >
-                                                    <Text>Free Since</Text>
-                                                    <Text style={{ fontSize: fontScale * 15, fontWeight: "bold" }} >10:08 PM</Text>
+                                                    <Text style={{ color: '#fff' }}>Free Since</Text>
+                                                    <Text style={{ color: '#fff', fontSize: fontScale * 15, fontWeight: "bold" }} >10:08 PM</Text>
                                                 </View>
                                             </CardItem>
 

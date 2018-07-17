@@ -12,7 +12,8 @@ class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            countingObjects: {}
+            countingObjects: {},
+            prevOrderArray: [],
         }
     }
     countingObjects = {
@@ -21,19 +22,25 @@ class Menu extends Component {
     prevOrderArray = []
     componentDidMount() {
         this.props.loadMenu();
-        this.prevOrderArray = this.props.navigation.getParam("orderArray");
-        console.log("orderArray", this.prevOrderArray)
-        this.checkPrevOrderArray(this.prevOrderArray)
+        prevOrderArray = this.props.navigation.getParam('orderArray');
+        this.setState({ prevOrderArray });
+        this.checkPrevOrderArray(prevOrderArray)
     }
-    checkPrevOrderArray = (array) => {
-        if (array)
-            array.forEach((value) => {
-                value.items.forEach(val => {
-                    this.countingObjects[val.item] = { count: parseInt(val.qty), price: parseInt(val.price) }
+
+    checkPrevOrderArray = (prevOrderArray) => {
+        if (prevOrderArray) {
+            prevOrderArray.forEach(data => {
+                data.items.forEach(item => {
+                    this.countingObjects[item.item] = {
+                        count: parseInt(item.qty),
+                        price: parseInt(item.price)
+                    }
                 })
             })
-        this.setState({ countingObjects: this.countingObjects })
+            this.setState({countingObjects: this.countingObjects});
+        }
     }
+
     itemCounterPlus = (itemName, price) => {
         console.log(this.countingObjects)
         if (this.countingObjects[itemName] == undefined) {
@@ -41,7 +48,6 @@ class Menu extends Component {
                 count: 1,
                 price
             }
-            console.log("inside if", this.countingObjects[itemName])
         }
         else {
             this.countingObjects[itemName].count = this.countingObjects[itemName].count + 1
@@ -54,8 +60,6 @@ class Menu extends Component {
             this.countingObjects[itemName].count = this.countingObjects[itemName].count - 1;
         }
         this.setState({ countingObjects: this.countingObjects });
-        console.log("this.state.countingObjects[itemName].count", this.state.countingObjects[itemName].count);
-        console.log("this.state.countingObjects[itemName]", this.state.countingObjects[itemName]);
     }
 
 
@@ -82,16 +86,12 @@ class Menu extends Component {
                     status: "queued"
                 }
                 this.orderArray.push(obj);
-                console.log(this.orderArray);
             }
         }
         this.props.navigation.navigate('confirmOrder', { state: this.orderArray });
         this.orderArray = [];
     }
-
     render() {
-
-
         return (
             <View style={{ flex: 1 }} >
                 <View style={{ flex: 0.1 }} >

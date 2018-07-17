@@ -6,7 +6,9 @@ let INITIAL_STATE = {
     isError: false,
     errorText: "",
     tables: null,
-    menu:[]
+    menu: [],
+    tableID: '',
+    orderID: ''
 }
 
 export default function dbReducer(state = INITIAL_STATE, action) {
@@ -18,18 +20,18 @@ export default function dbReducer(state = INITIAL_STATE, action) {
             return Object.assign({}, state, { isProgress: false, tables: action.payload });
 
         case actionTypes.LOAD_ALL_TABLES_ERROR:
-            return Object.assign({}, state, {isError:true, errorText: action.payload});
+            return Object.assign({}, state, { isError: true, errorText: action.payload });
 
         case actionTypes.LOAD_ALL_TABLES_ERROR_TRUE:
-            return Object.assign({}, state, {isError: true});
+            return Object.assign({}, state, { isError: true });
 
 
         case actionTypes.LOAD_MENU_PROGRESS:
-        return Object.assign({},state,{isProgress:true})
+            return Object.assign({}, state, { isProgress: true })
         case actionTypes.LOAD_MENU_SUCCESS:
-        return Object.assign({},state,{isProgress:false,menu:action.payload})
+            return Object.assign({}, state, { isProgress: false, menu: action.payload })
         case actionTypes.LOAD_MENU_ERROR:
-        return Object.assign({},state,{isProgress:false,isError:true,errorText:action.payload})
+            return Object.assign({}, state, { isProgress: false, isError: true, errorText: action.payload })
 
         case actionTypes.PUSH_ORDER_PROGRESS:
         return Object.assign({},state,{isProgress:true})
@@ -38,6 +40,11 @@ export default function dbReducer(state = INITIAL_STATE, action) {
         case actionTypes.PUSH_ORDER_ERROR:
         return Object.assign({},state,{isProgress:false,isError:true,errorText:action.payload})
         
+
+        case actionTypes.SET_TABLE_ID:
+            return Object.assign({}, state, { tableID: action.payload })
+        case actionTypes.SET_ORDER_ID:
+            return Object.assign({}, state, { orderID: action.payload })
         default:
             return state;
     }

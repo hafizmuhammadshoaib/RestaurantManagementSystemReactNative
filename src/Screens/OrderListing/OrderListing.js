@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, StyleSheet, Text, View, Image, ImageBackground, Dimensions, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import { Card, CardItem, Container, Header, Content, Tab, Tabs, List, ListItem, Icon, Button } from "native-base";
-const { width, height, fontScale, scale } = Dimensions.get('window');
+// const { width, height, fontScale, scale } = Dimensions.get('window');
 let tableName = undefined;
+const { height, fontScale, scale, width } = Dimensions.get("window");
+import DBActions from "../../Store/Actions/DBActions/DBActions";
+
 
 const color = {
     'cooking': '#f7a928',
@@ -19,6 +22,7 @@ class OrderListing extends Component {
             orderId: undefined
         }
         tableName = this.props.navigation.getParam('tableName');
+        this.props.setTableId(tableName);
         tableIndex = this.props.tables.findIndex(element => tableName === element.key);
         orderKeyArray = Object.keys(this.props.tables[tableIndex].Orders);
         orderArray = Object.values(this.props.tables[tableIndex].Orders);
@@ -75,7 +79,7 @@ class OrderListing extends Component {
 
         // tableName = `${this.props.navigation.getParam('tableName')}`;
         // alert(orderArray)
-        console.log(this.props.tables)
+
         return (
             <View style={{ flex: 1 }}>
                 <FlatList
@@ -84,6 +88,7 @@ class OrderListing extends Component {
                     data={orderArray}
                     keyExtractor={(item, index) => index}
                     renderItem={({ item, index }) => {
+                        this.props.setOrderId(orderKeyArray[index]);
                         return (
                             <TouchableOpacity onPress={() => this.setOrderId(orderKeyArray[index])} style={{ width: width * 0.5, height: height * 0.38 }}>
                                 <View style={{ width: width * 0.5, height: height * 0.38 }}>
@@ -275,7 +280,8 @@ let mapStateToProps = (state) => {
 }
 let mapDispatchToProps = (dispatch) => {
     return {
-
+        setTableId: (tableId) => dispatch(DBActions.setTableID(tableId)),
+        setOrderId: (orderId) => dispatch(DBActions.setOrderID(orderId)),
     }
 }
 
