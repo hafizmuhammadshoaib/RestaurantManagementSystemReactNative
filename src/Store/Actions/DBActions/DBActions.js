@@ -30,4 +30,11 @@ export default class DBActions{
             payload:msg
         }
     }
+
+    static pushDoneOrder(orderObj){
+        return{
+            type: actionTypes.PUSH_DONE_ORDER,
+            payload: orderObj
+        }
+    }
 }

@@ -1,45 +1,3 @@
-// /**
-//  * Sample React Native App
-//  * https://github.com/facebook/react-native
-//  *
-//  * @format
-//  * @flow
-//  */
-
-// import React, { Component } from 'react';
-// import { Platform, StyleSheet, Text, View } from 'react-native';
-// import { NativeRouter, Route, Link } from 'react-router-native';
-// import Splash from "./src/Screens/Splash/Splash";
-// import SignIn from './src/Screens/SignIn/SignIn';
-// import Home from './src/Screens/Home/Home';
-// import OrderListing from './src/Screens/OrderListing/OrderListing';
-// import { Provider } from "react-redux";
-// import { store } from './src/Store/index';
-// import { createStackNavigator } from 'react-navigation';
-
-// export default class App extends Component {
-//   render() {
-//     return (
-//       <Provider store={store} >
-//           <View style={{flex:1}}>
-//             <RootStack />
-//           </View>
-//       </Provider>
-//     );
-//   }
-// }
-
-// const RootStack = createStackNavigator({
-//   splash: Splash,
-//   home: Home,
-//   order: OrderListing,
-//   signIn: SignIn
-// },
-// {
-//   initialRouteName: 'splash'
-// }
-// );
-
 import React, { Component } from 'react';
 
 import { Platform, StyleSheet, Text, View } from 'react-native';
@@ -51,6 +9,7 @@ import Splash from "./src/Screens/Splash/Splash";
 import SignIn from './src/Screens/SignIn/SignIn';
 
 import Home from './src/Screens/Home/Home';
+import ConfirmOrder from './src/Screens/ConfirmOrder/ConfirmOrder'
 
 import OrderListing from './src/Screens/OrderListing/OrderListing';
 
@@ -76,14 +35,14 @@ export default class App extends Component {
     );
 
   }
-
 }
 const RootStack = createStackNavigator({
   splash: Splash,
   signIn: SignIn,
   home: Home,
   order: OrderListing,
-  menu:Menu
+  menu:Menu,
+  confirmorder: ConfirmOrder
 }, {
     initialRouteName: "menu",
     navigationOptions: {
@@ -110,4 +69,3 @@ RootStack.router.getStateForAction = (action, state) => {
   }
   return prevGetStateForActionHomeStack(action, state);
 };
-

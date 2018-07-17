@@ -35,4 +35,14 @@ export default class DBEpic {
             })
         })
     }
+
+    static pushDoneOrder(action$){
+        return action$.ofType(actionTypes.PUSH_DONE_ORDER)
+                    .switchMap(({payload})=>{
+                        return Observable.fromPromise(FirebaseDB.pushDoneOrder(payload))
+                                .map(()=>{
+                                    console.log("data pushed in firebase");
+                                })
+                    })
+    }
 }

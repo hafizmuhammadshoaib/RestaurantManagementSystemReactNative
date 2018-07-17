@@ -11,13 +11,20 @@ export default class FirebaseDB {
             });
         })
     }
-     static getMenuData(){
-        return new Promise((res, rej)=>{
-          fire.child(`Restaurants/${uid}/Menu`).once("value", (snapshot)=>{
-            res(snapshotToArray(snapshot));
-          })
+    static getMenuData() {
+        return new Promise((res, rej) => {
+            fire.child(`Restaurants/${uid}/Menu`).once("value", (snapshot) => {
+                res(snapshotToArray(snapshot));
+            })
         })
-      }
+    }
+
+    static pushDoneOrder(orderObj){
+        return new Promise((res, rej)=>{
+            fire.child(`Restaurants/${uid}/Tables/T1/Orders`).push(orderObj);
+            res(true);
+        })
+    }
 }
 
 function snapshotToArray(snapshot) {
