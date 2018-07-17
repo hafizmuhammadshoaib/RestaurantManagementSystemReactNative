@@ -42,7 +42,7 @@
 
 import React, { Component } from 'react';
 
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View,Dimensions } from 'react-native';
 
 import { NativeRouter, Route, Link } from 'react-router-native';
 
@@ -54,6 +54,8 @@ import Home from './src/Screens/Home/Home';
 
 import OrderListing from './src/Screens/OrderListing/OrderListing';
 
+import ConfirmOrder from './src/Screens/ConfirmOrder/ConfirmOrder'
+
 import { Provider } from "react-redux";
 
 import { store } from './src/Store/index';
@@ -61,6 +63,10 @@ import { store } from './src/Store/index';
 import { createStackNavigator } from 'react-navigation';
 
 import Menu from './src/Screens/Menu/Menu';
+
+const { height, fontScale, scale, width } = Dimensions.get("window")
+
+
 export default class App extends Component {
 
   render() {
@@ -83,17 +89,20 @@ const RootStack = createStackNavigator({
   signIn: SignIn,
   home: Home,
   order: OrderListing,
-  menu:Menu
+  menu:Menu,
+  confirmOrder:ConfirmOrder
 }, {
     initialRouteName: "menu",
     navigationOptions: {
       title: 'Kolachi',
       headerStyle: {
-        backgroundColor: "#C72928"
+        backgroundColor: "#C72928",
+        
       },
       headerTintColor: "#fff",
       headerTitleStyle: {
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontSize:fontScale*20,borderWidth:1,borderColor:"#C72928"
       }
     }
   });

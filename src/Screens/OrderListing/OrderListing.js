@@ -55,7 +55,7 @@ class OrderListing extends Component {
     }
 
     render() {
-        i = 0;
+        
         // tableName = `${this.props.navigation.getParam('tableName')}`;
         // alert(orderArray)
         return (
