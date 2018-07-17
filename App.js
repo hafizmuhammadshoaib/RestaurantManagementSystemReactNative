@@ -49,7 +49,7 @@ const RootStack = createStackNavigator({
   menu:Menu,
   confirmOrder:ConfirmOrder
 }, {
-    initialRouteName: "menu",
+    initialRouteName: "splash",
     navigationOptions: {
       title: 'Kolachi',
       headerStyle: {

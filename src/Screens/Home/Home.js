@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Form, Input, Text, Item, Button, Card, CardItem, Left, Body, Right, Footer } from "native-base";
-import { Platform, StyleSheet, View, TextInput, Dimensions, ListView, Image, ScrollView,TouchableOpacity,StatusBar } from 'react-native';
+import { Platform, StyleSheet, View, TextInput, Dimensions, ListView, Image, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DBActions from "../../Store/Actions/DBActions/DBActions";
@@ -14,10 +14,19 @@ class Home extends Component {
         super(props);
     }
     componentDidMount() {
-        // this.props.loadTables();
-        this.props.loadMenu()
+        this.props.loadTables();
+        // this.props.loadMenu()
     }
-
+    navigateToAnotherScreen=(status, tableKey)=> {
+        console.log("/////////",status)
+        if (status == "occupied") {
+            this.props.navigation.navigate('order', { tableName: tableKey })
+        }
+        else{
+            this.props.navigation.navigate('menu');
+        }
+        // this.props.navigation.navigate('menu');
+    }
 
     render() {
         console.log(this.props.tables)
@@ -39,12 +48,12 @@ class Home extends Component {
 
                         {
                             (!this.props.tables) ? null :
-                                this.props.tables.map((value,index) => {
+                                this.props.tables.map((value, index) => {
 
-                                    return (<TouchableOpacity key={index} style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={()=>{this.props.navigation.navigate('order',{tableName:value.key})}}  >
+                                    return (<TouchableOpacity key={index} style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={() => { this.navigateToAnotherScreen(value.status,value.key)}}  >
                                         <Card   >
 
-                                            <CardItem  style={{ justifyContent: "center", shadowColor: "#C3C5C7", }} >
+                                            <CardItem style={{ justifyContent: "center", shadowColor: "#C3C5C7", }} >
                                                 <Text style={{ fontSize: fontScale * 30, fontWeight: "bold", padding: 10 }}  >{value.key}</Text>
 
                                             </CardItem>
@@ -133,13 +142,13 @@ const mapStateToProps = state => {
         isError: state.authReducer.isError,
         errorText: state.authReducer.errorText,
         tables: state.dbReducer.tables,
-        menu:state.dbReducer.menu
+        menu: state.dbReducer.menu
     };
 };
 const mapDispatchToProps = dispatch => {
     return {
         loadTables: () => dispatch(DBActions.loadTables()),
-        loadMenu:()=>dispatch(DBActions.loadMenu())
+        loadMenu: () => dispatch(DBActions.loadMenu())
     };
 };
 export default connect(

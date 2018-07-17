@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View, TextInput, Dimensions, Text, StatusBar, FlatList, Button,TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, View, TextInput, Dimensions, Text, StatusBar, FlatList, Button, TouchableOpacity } from 'react-native';
 import { Container, Header, Content, Form, Input, Item, Icon, Card, CardItem, Body, Spinner, List, ListItem } from "native-base";
 import { connect } from "react-redux";
 import AuthActions from '../../Store/Actions/AuthActions/AuthActions';
@@ -18,14 +18,27 @@ class Menu extends Component {
     countingObjects = {
     }
     orderArray = [];
+    prevOrderArray = []
     componentDidMount() {
-        this.props.loadMenu()
+        this.props.loadMenu();
+        this.prevOrderArray = this.props.navigation.getParam("orderArray");
+        console.log("orderArray", this.prevOrderArray)
+        this.checkPrevOrderArray(this.prevOrderArray)
+    }
+    checkPrevOrderArray = (array) => {
+        if (array)
+            array.forEach((value) => {
+                value.items.forEach(val => {
+                    this.countingObjects[val.item] = { count: parseInt(val.qty), price: parseInt(val.price) }
+                })
+            })
+        this.setState({ countingObjects: this.countingObjects })
     }
     itemCounterPlus = (itemName, price) => {
         console.log(this.countingObjects)
         if (this.countingObjects[itemName] == undefined) {
             this.countingObjects[itemName] = {
-                count : 1, 
+                count: 1,
                 price
             }
             console.log("inside if", this.countingObjects[itemName])
@@ -36,20 +49,16 @@ class Menu extends Component {
         this.setState({ countingObjects: this.countingObjects })
     }
 
-    itemCounterSub = (itemName, price) =>{
-        if(this.state.countingObjects[itemName] != undefined && this.state.countingObjects[itemName].count != '0'){
+    itemCounterSub = (itemName, price) => {
+        if (this.state.countingObjects[itemName] != undefined && this.state.countingObjects[itemName].count != '0') {
             this.countingObjects[itemName].count = this.countingObjects[itemName].count - 1;
         }
-        this.setState({countingObjects: this.countingObjects});
+        this.setState({ countingObjects: this.countingObjects });
         console.log("this.state.countingObjects[itemName].count", this.state.countingObjects[itemName].count);
         console.log("this.state.countingObjects[itemName]", this.state.countingObjects[itemName]);
     }
 
-    shouldComponentUpdate(newProps, newState) {
-        console.log("newProps", newProps);
-        console.log("newState", newState);
-        return true;
-    }
+
 
     updateCounter = (data, price) => {
         if (this.countingObjects[data] == undefined) {
@@ -63,12 +72,12 @@ class Menu extends Component {
         this.setState({ countingObjects: this.countingObjects });
     }
 
-    done = () =>{
-        if(this.state.countingObjects !== {}){
-            for(i in this.countingObjects){
-                let obj={
+    done = () => {
+        if (this.state.countingObjects !== {}) {
+            for (i in this.countingObjects) {
+                let obj = {
                     item: i,
-                    qty : this.countingObjects[i].count,
+                    qty: this.countingObjects[i].count,
                     price: this.countingObjects[i].price,
                     status: "queued"
                 }
@@ -76,7 +85,7 @@ class Menu extends Component {
                 console.log(this.orderArray);
             }
         }
-        this.props.navigation.navigate('confirmOrder',{state: this.orderArray});
+        this.props.navigation.navigate('confirmOrder', { state: this.orderArray });
         this.orderArray = [];
     }
 
@@ -87,10 +96,10 @@ class Menu extends Component {
             <View style={{ flex: 1 }} >
                 <View style={{ flex: 0.1 }} >
                     <Card>
-                        <CardItem style={{justifyContent:'space-between'}}>
+                        <CardItem style={{ justifyContent: 'space-between' }}>
                             <Text style={{ fontWeight: "bold" }} >Menu List</Text>
                             <TouchableOpacity onPress={this.done} >
-                                <Text style={{backgroundColor: 'green', padding: 4, color: "#fff", borderRadius: 5, fontSize: fontScale*10}}>
+                                <Text style={{ backgroundColor: 'green', padding: 4, color: "#fff", borderRadius: 5, fontSize: fontScale * 10 }}>
                                     Done
                                 </Text>
                             </TouchableOpacity>
@@ -148,17 +157,17 @@ class Menu extends Component {
                         )
                     }}
                 /> */}
-                <FlatList data={this.props.menu} extraData={this.state} 
-                    renderItem={({ item, index })=> <View key={index}
-                    style = {{flex: 0.9}} >
+                <FlatList data={this.props.menu} extraData={this.state}
+                    renderItem={({ item, index }) => <View key={index}
+                        style={{ flex: 0.9 }} >
                         <Text style={{ padding: 10, fontWeight: "bold", fontSize: fontScale * 20, backgroundColor: "#FEF8E8" }} > {item.menuSection} </Text>
                         <FlatList data={item.items} extraData={this.state} style={{ backgroundColor: "#ffffff" }}
                             renderItem={({ item, index }) => (<ListItem style={{ justifyContent: "space-between" }} key={index} >
                                 <Text>{item.name}</Text>
                                 <View style={{ flexDirection: "row", alignItems: "center", }} >
-                                    <Button onPress={()=>{this.itemCounterPlus(item.name, item.price)}} title=" + " color="#BA1F1F" />
-                                    <Text style={{ padding: 10, fontWeight: "bold", color: "#CC6C6A" }} > { this.state.countingObjects[item.name] == undefined? '0' : this.state.countingObjects[item.name].count}</Text>
-                                    <Button onPress = {()=>{this.itemCounterSub(item.name, item.price)}} title=" - " color="#BA1F1F" />
+                                    <Button onPress={() => { this.itemCounterPlus(item.name, item.price) }} title=" + " color="#BA1F1F" />
+                                    <Text style={{ padding: 10, fontWeight: "bold", color: "#CC6C6A" }} > {this.state.countingObjects[item.name] == undefined ? '0' : this.state.countingObjects[item.name].count}</Text>
+                                    <Button onPress={() => { this.itemCounterSub(item.name, item.price) }} title=" - " color="#BA1F1F" />
                                 </View>
                             </ListItem>)}
                         />

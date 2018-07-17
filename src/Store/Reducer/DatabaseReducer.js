@@ -1,4 +1,5 @@
 import actionTypes from '../actionTypes';
+import { startWith } from 'rxjs/operator/startWith';
 
 let INITIAL_STATE = {
     isProgress: false,
@@ -30,6 +31,13 @@ export default function dbReducer(state = INITIAL_STATE, action) {
         case actionTypes.LOAD_MENU_ERROR:
         return Object.assign({},state,{isProgress:false,isError:true,errorText:action.payload})
 
+        case actionTypes.PUSH_ORDER_PROGRESS:
+        return Object.assign({},state,{isProgress:true})
+        case actionTypes.PUSH_ORDER_SUCCESS:
+        return Object.assign({},state,{isProgress:false})
+        case actionTypes.PUSH_ORDER_ERROR:
+        return Object.assign({},state,{isProgress:false,isError:true,errorText:action.payload})
+        
         default:
             return state;
     }

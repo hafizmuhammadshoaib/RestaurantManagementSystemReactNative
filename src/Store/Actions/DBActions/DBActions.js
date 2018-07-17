@@ -31,10 +31,11 @@ export default class DBActions{
         }
     }
 
-    static pushDoneOrder(orderObj){
+
+    static pushDoneOrder(orderObj,tableId){
         return{
-            type: actionTypes.PUSH_DONE_ORDER,
-            payload: orderObj
+            type: actionTypes.PUSH_ORDER_PROGRESS,
+            payload: {orderObj,tableId}
         }
     }
 }

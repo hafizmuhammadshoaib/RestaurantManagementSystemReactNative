@@ -19,9 +19,9 @@ export default class FirebaseDB {
         })
     }
 
-    static pushDoneOrder(orderObj){
+    static pushDoneOrder(orderObj,tableId){
         return new Promise((res, rej)=>{
-            fire.child(`Restaurants/${uid}/Tables/T1/Orders`).push(orderObj);
+            fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders`).push(orderObj);
             res(true);
         })
     }

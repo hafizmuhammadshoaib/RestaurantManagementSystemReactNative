@@ -27,7 +27,7 @@ class ConfirmOrder extends Component {
     }
 
     static navigationOptions = {
-        headerLeft: null
+        
     }
 
     confirmOrder = () => {
@@ -38,7 +38,7 @@ class ConfirmOrder extends Component {
             status: "confirmed",
             "ETA": new Date().getTime() + 1200000
         }
-        this.props.doneOrder(obj);
+        this.props.doneOrder(obj,"T1");
     }
 
     doneOrder = () => {
@@ -119,14 +119,15 @@ const mapStateToProps = state => {
         isError: state.authReducer.isError,
         errorText: state.authReducer.errorText,
         tables: state.dbReducer.tables,
-        menu: state.dbReducer.menu
+        menu: state.dbReducer.menu,
+        
     };
 };
 const mapDispatchToProps = dispatch => {
     return {
         loadTables: () => dispatch(DBActions.loadTables()),
         loadMenu: () => dispatch(DBActions.loadMenu()),
-        doneOrder: (obj) => dispatch(DBActions.doneOrder(obj))
+        doneOrder: (obj,tableId) => dispatch(DBActions.pushDoneOrder(obj,tableId))
     };
 };
 export default connect(

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Platform, StyleSheet, Text, View, Image, ImageBackground, Dimensions, TextInput, FlatList, TouchableOpacity } from 'react-native';
-import { Card, CardItem, Container, Header, Content, Tab, Tabs, List, ListItem } from "native-base";
-const { width, height } = Dimensions.get('window');
+import { Card, CardItem, Container, Header, Content, Tab, Tabs, List, ListItem, Icon, Button } from "native-base";
+const { width, height, fontScale, scale } = Dimensions.get('window');
 let tableName = undefined;
 
 const color = {
@@ -20,23 +20,40 @@ class OrderListing extends Component {
         }
         tableName = this.props.navigation.getParam('tableName');
         tableIndex = this.props.tables.findIndex(element => tableName === element.key);
-        orderArray = Object.values(this.props.tables[tableIndex].Orders);
         orderKeyArray = Object.keys(this.props.tables[tableIndex].Orders);
+        orderArray = Object.values(this.props.tables[tableIndex].Orders);
     }
 
+
     static navigationOptions = {
+
         headerStyle: {
             backgroundColor: '#212121',
             width: width * 1
-        }
+        },
+
+
     }
 
 
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({ navigation}) => {
+        console.log(this);
         return {
-            title: navigation.getParam('tableName')
+            title: navigation.getParam('tableName'),
+            // headerRight: (
+            //     // <Icon style={{ color: "#2DB586" }} active name="dot-circle-o" />
+            // ),
+            headerRight: (
+                <TouchableOpacity style={{ flex: 1, justifyContent: 'center', height: height * 1 / 20, marginRight: width * 1 / 15 }} onPress={() => {navigation.navigate('menu',{orderArray:this.orderArray}) }}>
+                    <Text style={{fontSize:fontScale*50,fontWeight:"bold",color:"#fff"}} >+</Text>
+                </TouchableOpacity>
+            ),
+
         };
     };
+    // navigateToMenu = () => {
+    //     this.props.navigation.navigate('menu', { orderArray: this.orderArray })
+    // }
 
 
     formatAMPM = (date) => {
@@ -55,9 +72,10 @@ class OrderListing extends Component {
     }
 
     render() {
-        
+
         // tableName = `${this.props.navigation.getParam('tableName')}`;
         // alert(orderArray)
+        console.log(this.props.tables)
         return (
             <View style={{ flex: 1 }}>
                 <FlatList
@@ -244,6 +262,7 @@ class OrderListing extends Component {
                             </Tab>
                         </Tabs>
                 }
+
             </View>
         )
     }

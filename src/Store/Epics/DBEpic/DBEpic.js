@@ -37,11 +37,16 @@ export default class DBEpic {
     }
 
     static pushDoneOrder(action$){
-        return action$.ofType(actionTypes.PUSH_DONE_ORDER)
+        return action$.ofType(actionTypes.PUSH_ORDER_PROGRESS)
                     .switchMap(({payload})=>{
-                        return Observable.fromPromise(FirebaseDB.pushDoneOrder(payload))
-                                .map(()=>{
-                                    console.log("data pushed in firebase");
+                        return Observable.fromPromise(FirebaseDB.pushDoneOrder(payload.orderObj,payload.tableId))
+                                .map((value)=>{
+                                    return{
+                                        type:actionTypes.PUSH_ORDER_SUCCESS,
+                                        payload:value
+                                    }
+                                }).catch(err=>{
+                                    return Observable.of({type:actionTypes.PUSH_ORDER_ERROR,payload:err.message})
                                 })
                     })
     }
