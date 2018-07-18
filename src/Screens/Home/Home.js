@@ -5,12 +5,14 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/FontAwesome";
 import DBActions from "../../Store/Actions/DBActions/DBActions";
 import { connect } from "react-redux";
+import LinearGradient from 'react-native-linear-gradient';
 
 const { height, fontScale, scale, width } = Dimensions.get("window");
 
 const colors = {
-    free: "#5aaf79",
-    occupied: '#0278be'
+    free: ['#5ab38c', '#5bb07a', '#57a564'],
+    occupied: ['#1087cb', '#006eb4', '#025799'],
+
 }
 
 class Home extends Component {
@@ -26,99 +28,57 @@ class Home extends Component {
         console.log(this.props.tables)
         return (
             <View style={{ flex: 1 }} >
-                {/* <Header style={{ backgroundColor: "#C72928" }} androidStatusBarColor="#B71D1D" >
-                    <Left >
-                        <Text style={{ color: "#FFF", fontWeight: "bold", fontSize: fontScale * 20 }} > Kolachi</Text>
-                    </Left>
-
-                    <Right />
-                </Header> */}
                 <StatusBar backgroundColor="#B71D1D" />
                 <ScrollView style={{ flexWrap: "wrap", height: height }} >
                     <View style={{
                         flexDirection: 'row',
                         flexWrap: 'wrap', flex: 1
                     }} >
-
                         {
                             (!this.props.tables) ? null :
                                 this.props.tables.map((value, index) => {
                                     console.log('value: ***************/////**', value);
-                                    return (<TouchableOpacity key={index} style={{ width: width / 2, height: height * 0.35, backgroundColor: "#F5F5F5" }} onPress={() => { this.props.navigation.navigate(value.status == 'occupied' ? 'order' : 'menu', { tableName: value.key }) }}>
-                                        <Card style={{ backgroundColor: colors[value.status] }}>
-                                            <CardItem style={{ backgroundColor: colors[value.status], justifyContent: "center", shadowColor: "#C3C5C7", }} >
-                                                <Text style={{ color: '#fff', fontSize: fontScale * 30, fontWeight: "bold", padding: 10 }}  >{value.key}</Text>
-                                            </CardItem>
-                                            <View
-                                                style={{
-                                                    borderBottomColor: '#D5D5D5',
-                                                    borderBottomWidth: 1,
-                                                    width: "90%",
-                                                    alignSelf: "center"
-                                                }}
-                                            />
-                                            <CardItem style={{ backgroundColor: colors[value.status], padding: 0, margin: 0, justifyContent: "space-between", }} >
-                                                <Image source={require('./seat.png')} />
-                                                <View style={{ paddingRight: fontScale * 25 }}>
-                                                    <Text style={{ color: '#fff' }}>Total</Text>
-                                                    <Text style={{ color: '#fff', fontSize: fontScale * 15, fontWeight: "bold", alignSelf: 'flex-start' }} >{`Seats ${value.seats}`}</Text>
-                                                </View>
-                                            </CardItem>
-                                            <CardItem style={{ backgroundColor: colors[value.status], padding: 0, margin: 0, justifyContent: "space-between" }}>
-                                                <Image source={require('./timer.png')} />
-                                                <View  >
-                                                    <Text style={{ color: '#fff' }}>Free Since</Text>
-                                                    <Text style={{ color: '#fff', fontSize: fontScale * 15, fontWeight: "bold" }} >10:08 PM</Text>
-                                                </View>
-                                            </CardItem>
+                                    return (
+                                        <LinearGradient colors={colors[value.status]} style={[{margin: width * 0.01, borderRadius: 5}, styles.containerStyle]}>
+                                            <TouchableOpacity key={index} style={{ width: width * 0.47, height: height * 0.35 }} onPress={() => { this.props.navigation.navigate(value.status == 'occupied' ? 'order' : 'menu', { tableName: value.key }) }}>
+                                                <View >
+                                                    <View style={{ justifyContent: "center", shadowColor: "#C3C5C7", }} >
+                                                        <Text style={{ alignSelf:'center',color: '#fff', fontSize: fontScale * 30, fontWeight: "bold", padding: 10 }}  >{value.key}</Text>
+                                                    </View>
+                                                    <View
+                                                        style={{
+                                                            borderBottomColor: '#D5D5D5',
+                                                            borderBottomWidth: 1,
+                                                            width: "90%",
+                                                            alignSelf: "center"
+                                                        }}
+                                                    />
+                                                    <View style={{ padding:  fontScale * 15, margin: 0, flexDirection: 'row', justifyContent: "space-between", }} >
+                                                        <Image source={require('./seat.png')} />
+                                                        <View style={{ paddingRight: fontScale * 25 }}>
+                                                            <Text style={{ color: '#fff' }}>Total</Text>
+                                                            <Text style={{ color: '#fff', fontSize: fontScale * 15, fontWeight: "bold", alignSelf: 'flex-start' }} >{`Seats ${value.seats}`}</Text>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ padding: fontScale * 15, margin: 0, flexDirection: 'row', justifyContent: "space-between" }}>
+                                                        <Image source={require('./timer.png')} />
+                                                        <View  >
+                                                            <Text style={{ color: '#fff' }}>Free Since</Text>
+                                                            <Text style={{ color: '#fff', fontSize: fontScale * 15, fontWeight: "bold" }} >10:08 PM</Text>
+                                                        </View>
+                                                    </View>
 
-                                        </Card>
-                                    </TouchableOpacity>)
+                                                </View>
+                                            </TouchableOpacity>
+                                        </LinearGradient>
+
+                                    )
                                 })
                         }
 
                     </View>
-                    {/* <Grid>
-                    <Row style={{ backgroundColor: "yellow", }} >
-                        <Col style={{ backgroundColor: "green", }} >
-                        <Text>one</Text>
-                        <Text>one</Text>
-                        <Text>one</Text>
-                        
-                        </Col>
-                        <Col style={{ backgroundColor: "cyan" }} ></Col>
-                        <Col style={{ backgroundColor: "grey" }} ></Col>
-
-                    </Row>
-                </Grid> */}
-                    {/* <Grid>
-                    <Col style={{ backgroundColor: "blue" }} > */}
-                    {/* <Row style={{ backgroundColor: "green" }} ></Row>
-                        <Row style={{ backgroundColor: "cyan" }} ></Row>
-                        <Row style={{ backgroundColor: "grey" }} ></Row> */}
-                    {/* 
-                    </Col>
-                </Grid>
-                <Grid>
-                    <Col style={{ backgroundColor: "green" }} > */}
-                    {/* <Row style={{ backgroundColor: "green" }} ></Row>
-                        <Row style={{ backgroundColor: "cyan" }} ></Row>
-                        <Row style={{ backgroundColor: "grey" }} ></Row> */}
-
-                    {/* </Col>
-                </Grid>
-                <Grid>
-                    <Col style={{ backgroundColor: "black" }} > */}
-                    {/* <Row style={{ backgroundColor: "green" }} ></Row>
-                        <Row style={{ backgroundColor: "cyan" }} ></Row>
-                        <Row style={{ backgroundColor: "grey" }} ></Row> */}
-
-                    {/* </Col>
-                </Grid> */}
                 </ScrollView>
             </View>
-
-
         )
     }
 }
@@ -143,3 +103,17 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(Home);
+const styles = StyleSheet.create({
+    containerStyle: {
+      borderWidth: width * 0.001,
+      borderRadius: 2,
+      borderColor: '#ddd',
+      borderBottomWidth: 0,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.8,
+      shadowRadius: 2,
+      elevation: 1,
+    }
+  })
+  
