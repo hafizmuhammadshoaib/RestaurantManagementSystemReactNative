@@ -12,7 +12,7 @@ import com.facebook.soloader.SoLoader;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.horcrux.svg.SvgPackage;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,8 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFirebasePackage(),
           new RNFirebaseDatabasePackage(),
           new RNFirebaseAuthPackage(),
-          new LinearGradientPackage(),
-          new SvgPackage()
+          new LinearGradientPackage()
          
       );
     }
