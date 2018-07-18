@@ -8,7 +8,8 @@ let INITIAL_STATE = {
     tables: null,
     menu: [],
     tableID: '',
-    orderID: ''
+    orderID: '',
+    orderPushed:''
 }
 
 export default function dbReducer(state = INITIAL_STATE, action) {
@@ -36,7 +37,7 @@ export default function dbReducer(state = INITIAL_STATE, action) {
         case actionTypes.PUSH_ORDER_PROGRESS:
         return Object.assign({},state,{isProgress:true})
         case actionTypes.PUSH_ORDER_SUCCESS:
-        return Object.assign({},state,{isProgress:false})
+        return Object.assign({},state,{isProgress:false,orderPushed:action.payload})
         case actionTypes.PUSH_ORDER_ERROR:
         return Object.assign({},state,{isProgress:false,isError:true,errorText:action.payload})
         

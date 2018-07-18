@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import DBActions from "../../Store/Actions/DBActions/DBActions";
 import FirebaseDB from '../../Store/Firebase/firebaseDB';
 import { connect } from "react-redux";
+import { StackActions, NavigationActions } from 'react-navigation'; 
 
 const { height, fontScale, scale, width } = Dimensions.get("window");
 
@@ -18,6 +19,13 @@ class ConfirmOrder extends Component {
             flag: false,
         }
     }
+    reset = (route) => {
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: `${route}` })],
+          });
+          this.props.navigation.dispatch(resetAction);
+    }
     componentDidMount() {
         // this.props.loadMenu()
 
@@ -25,10 +33,15 @@ class ConfirmOrder extends Component {
         console.log(orders);
         this.setState({ orderList: orders });
     }
-
+    componentWillReceiveProps(nextProps){
+        if(nextProps.orderPushed==="orderPushed"){
+            this.reset('home');
+        }
+    }
     static navigationOptions = {
         
     }
+
 
     confirmOrder = () => {
         // this.setState({ orderConfirm: true });
@@ -38,7 +51,7 @@ class ConfirmOrder extends Component {
             status: "confirmed",
             "ETA": new Date().getTime() + 1200000
         }
-        this.props.doneOrder(obj,"T1");
+        this.props.doneOrder(obj,this.props.tableId);
     }
 
     doneOrder = () => {
@@ -50,7 +63,7 @@ class ConfirmOrder extends Component {
                 <View style={{ flex: 0.1, justifyContent: "space-between", flexDirection: 'row', alignItems: 'center', padding: 15, backgroundColor: '#fff7ea' }}>
                     <View>
                         <Text style={{ color: "#b4b4b4", fontSize: fontScale * 15, fontWeight: '700' }}>Your Order</Text>
-                        <Text style={{ fontSize: fontScale * 12, fontWeight: '700' }}>S35 Main Order</Text>
+                        <Text style={{ fontSize: fontScale * 12, fontWeight: '700' }}>{`${this.props.tableId} Main Order`}</Text>
                         <Text style={{ fontSize: fontScale * 12, fontWeight: '700' }}>Total Items: {this.state.orderList.length}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: "center" }}>
@@ -120,6 +133,8 @@ const mapStateToProps = state => {
         errorText: state.authReducer.errorText,
         tables: state.dbReducer.tables,
         menu: state.dbReducer.menu,
+        tableId:state.dbReducer.tableID,
+        orderPushed:state.dbReducer.orderPushed
         
     };
 };

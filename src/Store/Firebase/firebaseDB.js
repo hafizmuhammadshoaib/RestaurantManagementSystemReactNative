@@ -20,9 +20,16 @@ export default class FirebaseDB {
     }
 
     static pushDoneOrder(orderObj,tableId){
+        console.log("////////******///////",tableId);
         return new Promise((res, rej)=>{
-            fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders`).push(orderObj);
-            res(true);
+            let updates={}
+           const keyValue= fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders`).push().key;
+           updates[`Restaurants/${uid}/Tables/${tableId}/status`]="occupied"
+           updates[`Restaurants/${uid}/Tables/${tableId}/Orders/${keyValue}`]=orderObj;
+           fire.update(updates,()=>{
+
+               res(true);
+           })
         })
     }
 }

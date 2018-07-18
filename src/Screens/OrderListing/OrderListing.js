@@ -26,6 +26,10 @@ class OrderListing extends Component {
         tableIndex = this.props.tables.findIndex(element => tableName === element.key);
         orderKeyArray = Object.keys(this.props.tables[tableIndex].Orders);
         orderArray = Object.values(this.props.tables[tableIndex].Orders);
+        tempArrayOrder = [];
+        tempArraykeyOrder=[];
+        tempArrayOrder.push(orderArray[0]);
+        tempArraykeyOrder.push(orderKeyArray[0])
     }
 
 
@@ -85,12 +89,12 @@ class OrderListing extends Component {
                 <FlatList
                     style={{ flex: 2 }}
                     horizontal={true}
-                    data={orderArray}
+                    data={tempArrayOrder}
                     keyExtractor={(item, index) => index}
                     renderItem={({ item, index }) => {
-                        this.props.setOrderId(orderKeyArray[index]);
+                        this.props.setOrderId(tempArraykeyOrder[index]);
                         return (
-                            <TouchableOpacity onPress={() => this.setOrderId(orderKeyArray[index])} style={{ width: width * 0.5, height: height * 0.38 }}>
+                            <TouchableOpacity onPress={() => this.setOrderId(tempArraykeyOrder[index])} style={{ width: width * 0.5, height: height * 0.38 }}>
                                 <View style={{ width: width * 0.5, height: height * 0.38 }}>
                                     <Card >
                                         <CardItem>
@@ -136,7 +140,7 @@ class OrderListing extends Component {
                                             <View
                                             >
                                                 <Text>
-                                                    {orderKeyArray[index]}
+                                                    {tempArraykeyOrder[index]}
                                                 </Text>
                                             </View>
                                         </CardItem>
@@ -280,7 +284,7 @@ let mapStateToProps = (state) => {
 }
 let mapDispatchToProps = (dispatch) => {
     return {
-        setTableId: (tableId) => dispatch(DBActions.setTableID(tableId)),
+        // setTableId: (tableId) => dispatch(DBActions.setTableID(tableId)),
         setOrderId: (orderId) => dispatch(DBActions.setOrderID(orderId)),
     }
 }

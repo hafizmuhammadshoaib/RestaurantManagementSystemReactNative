@@ -23,6 +23,8 @@ class Menu extends Component {
     componentDidMount() {
         this.props.loadMenu();
         prevOrderArray = this.props.navigation.getParam('orderArray');
+        let tableName=this.props.navigation.getParam('tableName');
+        this.props.setTableId(tableName);
         this.setState({ prevOrderArray });
         this.checkPrevOrderArray(prevOrderArray)
     }
@@ -185,13 +187,16 @@ const mapStateToProps = state => {
         isProgress: state.authReducer.isProgress,
         isError: state.authReducer.isError,
         errorText: state.authReducer.errorText,
-        menu: state.dbReducer.menu
+        menu: state.dbReducer.menu,
+        tableId:state.dbReducer.tableID
     };
 };
 const mapDispatchToProps = dispatch => {
     return {
         loadTables: () => dispatch(DBActions.loadTables()),
-        loadMenu: () => dispatch(DBActions.loadMenu())
+        loadMenu: () => dispatch(DBActions.loadMenu()),
+        setTableId: (tableId) => dispatch(DBActions.setTableID(tableId))
+
     };
 };
 export default connect(

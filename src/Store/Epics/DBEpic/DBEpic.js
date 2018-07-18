@@ -43,7 +43,7 @@ export default class DBEpic {
                                 .map((value)=>{
                                     return{
                                         type:actionTypes.PUSH_ORDER_SUCCESS,
-                                        payload:value
+                                        payload:"orderPushed"
                                     }
                                 }).catch(err=>{
                                     return Observable.of({type:actionTypes.PUSH_ORDER_ERROR,payload:err.message})
