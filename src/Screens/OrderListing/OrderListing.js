@@ -45,9 +45,10 @@ class OrderListing extends Component {
     pullHistory = (tempArray) => {
         if (tempArray) {
             tempArray.forEach(data => {
-                this.historyKeys = Object.keys(data.history);
-                this.historyValues = data.history;
-                console.log(this.historyKeys, this.historyValues);
+                if (data.history) {
+                    this.historyKeys = Object.keys(data.history);
+                    this.historyValues = data.history;
+                }
             })
         }
     }
@@ -136,7 +137,7 @@ class OrderListing extends Component {
                                                     {this.formatAMPM(new Date(item.ETA))}
                                                 </Text>
                                             </View>
-                                            <View style={{flex: 1, paddingLeft: height * 1 / 55 }}>
+                                            <View style={{ flex: 1, paddingLeft: height * 1 / 55 }}>
                                                 <Text style={{ backgroundColor: '#5db88b', color: '#fff', fontWeight: 'bold', width: width * 1 / 5, textAlign: 'center', borderRadius: 5 }}>
                                                     {item.status}
                                                 </Text>
