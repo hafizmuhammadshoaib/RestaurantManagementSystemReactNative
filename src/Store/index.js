@@ -27,6 +27,7 @@ export const rootEpic = combineEpics(
     DBEpic.loadMenu,
     DBEpic.pushDoneOrder,
     DBEpic.updateOrder,
+    DBEpic.billDone
   // more epics functions go here
 );
 

@@ -70,4 +70,10 @@ export default class DBActions{
             }
         }
     }
+    static billDone(tableId,orderId){
+        return{
+            type:actionTypes.BILL_DONE_PROGRESS,
+            payload:{tableId,orderId}
+        }
+    }
 }

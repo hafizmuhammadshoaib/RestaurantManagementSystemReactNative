@@ -45,6 +45,18 @@ export default class FirebaseDB {
             })
         })
     }
+    static doneOrder(tableId,orderId){
+        return new Promise((res,rej)=>{
+            let update={};
+            update[`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/status`]="billed";
+            update[`Restaurants/${uid}/Tables/${tableId}/status`]="free";
+            update[`Restaurants/${uid}/Kitchen/Orders/${orderId}/status`]="billed";
+            fire.update(update,()=>{
+                res(true)
+            })
+        })
+        
+    }
 }
 
 function snapshotToArray(snapshot) {

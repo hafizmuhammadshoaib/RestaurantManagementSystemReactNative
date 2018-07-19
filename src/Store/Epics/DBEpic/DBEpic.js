@@ -66,4 +66,16 @@ export default class DBEpic {
                     })
             })
     }
+    static billDone(action$){
+        return action$.ofType(actionTypes.BILL_DONE_PROGRESS).switchMap(({payload})=>{
+            return Observable.fromPromise(FirebaseDB.doneOrder(payload.tableId,payload.orderId)).map(()=>{
+                return{
+                    type:actionTypes.BILL_DONE_SUCCESS,
+                    payload:"billDone"
+                }
+            }).catch(err=>{
+                return Observable.of({type:actionTypes.BILL_DONE_ERROR,payload:err.message})
+            })
+        })
+    }
 }

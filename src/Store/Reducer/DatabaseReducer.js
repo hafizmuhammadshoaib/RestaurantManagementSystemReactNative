@@ -11,7 +11,8 @@ let INITIAL_STATE = {
     orderID: '',
     orderPushed: '',
     setUpdateFlag: false,
-    orderUpdated: ''
+    orderUpdated: '',
+    billDone:''
 }
 
 export default function dbReducer(state = INITIAL_STATE, action) {
@@ -60,6 +61,13 @@ export default function dbReducer(state = INITIAL_STATE, action) {
             return Object.assign({}, state, { isProgress: false, orderUpdated: action.payload, setUpdateFlag: false });
         case actionTypes.UPDATE_ORDER_ERROR:
             return Object.assign({}, state, { isProgress: false, isError: true, errorText: action.error, setUpdateFlag: false });
+
+        case actionTypes.BILL_DONE_PROGRESS:
+        return Object.assign({},state,{isProgress:true});
+        case actionTypes.BILL_DONE_SUCCESS:
+        return Object.assign({},state,{isProgress:false,billDone:action.payload});
+        case actionTypes.BILL_DONE_ERROR:
+        return Object.assign({},state,{isProgress:false,isError:true,errorText:action.payload})
 
         default:
             return state;
