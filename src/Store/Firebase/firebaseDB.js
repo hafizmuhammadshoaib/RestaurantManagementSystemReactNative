@@ -38,7 +38,7 @@ export default class FirebaseDB {
         console.log('obj, tableId, orderId *****@@@@@@*****', obj, tableId, orderId)
         return new Promise((res, rej)=>{
             let update = {};
-            update[`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}`] = obj;
+            update[`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/items`] = obj.items;
             fire.update(update, ()=>{
                 res(true);
             })

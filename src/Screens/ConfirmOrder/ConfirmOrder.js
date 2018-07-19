@@ -54,11 +54,11 @@ class ConfirmOrder extends Component {
         if (this.props.setUpdateFlag) {
             let obj = {
                 items: this.state.orderList,
-                status: "confirmed",
             }
             this.props.updateOrder(obj, this.props.tableId, this.props.orderId);
+        }else{
+            this.props.doneOrder(obj, this.props.tableId);
         }
-        this.props.doneOrder(obj, this.props.tableId);
     }
 
     doneOrder = () => {

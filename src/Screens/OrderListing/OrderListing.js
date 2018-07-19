@@ -31,6 +31,8 @@ class OrderListing extends Component {
         tempArraykeyOrder = [];
         tempArrayOrder.push(orderArray[0]);
         tempArraykeyOrder.push(orderKeyArray[0])
+        console.log('orderArray: *****/////*****', orderArray);
+        console.log('tempArraykeyOrder: *****/////*****', tempArraykeyOrder);
     }
 
     componentDidMount() {
