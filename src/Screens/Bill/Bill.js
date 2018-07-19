@@ -53,7 +53,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
         this.props.navigation.dispatch(resetAction);
     }
     billDoneCallBack=()=>{
-        alert("done");
+        // alert("done");
         this.props.doneBill(this.props.tableId,this.props.orderId)
         
     }
