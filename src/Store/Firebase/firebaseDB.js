@@ -37,9 +37,10 @@ export default class FirebaseDB {
     static updateOrder(obj, tableId, orderId){
         console.log('obj, tableId, orderId *****@@@@@@*****', obj, tableId, orderId)
         return new Promise((res, rej)=>{
-            let update = {};
-            update[`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/items`] = obj.items;
-            fire.update(update, ()=>{
+            const keyValue=fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/history`).push().key;
+            let newOrder = {};
+            newOrder[`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/history/${keyValue}`] = obj.items;
+            fire.update(newOrder, ()=>{
                 res(true);
             })
         })

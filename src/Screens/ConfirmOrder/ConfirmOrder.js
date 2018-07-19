@@ -34,9 +34,10 @@ class ConfirmOrder extends Component {
         this.setState({ orderList: orders });
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.orderPushed === "orderPushed") {
+        if (nextProps.orderPushed === "orderPushed" || nextProps.orderUpdated ==="orderUpdated") {
             this.reset('home');
         }
+        
     }
     static navigationOptions = {
 
@@ -143,7 +144,8 @@ const mapStateToProps = state => {
         tableId: state.dbReducer.tableID,
         orderId: state.dbReducer.orderID,
         orderPushed: state.dbReducer.orderPushed,
-        setUpdateFlag: state.dbReducer.setUpdateFlag
+        setUpdateFlag: state.dbReducer.setUpdateFlag,
+        orderUpdated:state.dbReducer.orderUpdated
 
     };
 };

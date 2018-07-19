@@ -4,6 +4,8 @@ import { Container, Header, Content, Form, Input, Item, Icon, Card, CardItem, Bo
 import { connect } from "react-redux";
 import AuthActions from '../../Store/Actions/AuthActions/AuthActions';
 import DBActions from "../../Store/Actions/DBActions/DBActions";
+import Accordion from 'react-native-collapsible/Accordion';
+import Ripple from 'react-native-material-ripple';
 
 const { height, fontScale, scale, width } = Dimensions.get("window")
 
@@ -23,13 +25,45 @@ class Menu extends Component {
     componentDidMount() {
         this.props.loadMenu();
         prevOrderArray = this.props.navigation.getParam('orderArray');
-        tableName=this.props.navigation.getParam('tableName');
-        if(tableName){
+        tableName = this.props.navigation.getParam('tableName');
+        if (tableName) {
             this.props.setTableId(tableName);
         }
         console.log('prevOrderArray: ***********', prevOrderArray);
         this.setState({ prevOrderArray });
-        this.checkPrevOrderArray(prevOrderArray)
+        // this.checkPrevOrderArray(prevOrderArray)
+    }
+    _renderSectionTitle = (section) => {
+        return (
+            <View >
+                <Text>{section.menuSection}</Text>
+            </View>
+        );
+    }
+    _renderHeader = (section) => {
+        return (
+            
+
+                    <Text style={{ padding: 10, fontWeight: "bold", fontSize: fontScale * 20, backgroundColor: "#FEF8E8" }} >{section.menuSection}</Text>
+
+            
+        );
+    }
+    _renderContent = (section) => {
+        return (
+            <View >
+                <FlatList data={section.items} extraData={this.state} style={{ backgroundColor: "#ffffff" }}
+                    renderItem={({ item, index }) => (<ListItem style={{ justifyContent: "space-between" }} key={index} >
+                        <Text>{item.name}</Text>
+                        <View style={{ flexDirection: "row", alignItems: "center", }} >
+                            <Button onPress={() => { this.itemCounterPlus(item.name, item.price) }} title=" + " color="#BA1F1F" />
+                            <Text style={{ padding: 10, fontWeight: "bold", color: "#CC6C6A" }} > {this.state.countingObjects[item.name] == undefined ? '0' : this.state.countingObjects[item.name].count}</Text>
+                            <Button onPress={() => { this.itemCounterSub(item.name, item.price) }} title=" - " color="#BA1F1F" />
+                        </View>
+                    </ListItem>)}
+                />
+            </View>
+        );
     }
 
     checkPrevOrderArray = (prevOrderArray) => {
@@ -42,7 +76,7 @@ class Menu extends Component {
                     }
                 })
             })
-            this.setState({countingObjects: this.countingObjects});
+            this.setState({ countingObjects: this.countingObjects });
         }
     }
 
@@ -111,58 +145,16 @@ class Menu extends Component {
                         </CardItem>
                     </Card>
                 </View>
-                {/* <FlatList
-                    extraData={this.state}
-                    data={this.props.menu}
-                    emoveClippedSubviews={false}
-                    keyExtractor={(item, index) => index}
-                    renderItem={({ item, index }) => {
-                        if(item.menuSection !== undefined)
-                        return (
-                            <View key={index} style={{ justifyContent: 'space-between', borderWidth: 0 }}>
-                                <Text>
-                                    {item.menuSection}
-                                </Text>
-                                {
-                                    item.items.map((data, index) => {
-                                        return (
-                                            <ListItem key={} style={{ justifyContent: 'space-between', borderWidth: 2 }}>
-                                                <Text>
-                                                    {data.name}
-                                                </Text>
-                                                <View style={{ flexDirection: 'row' }}>
-                                                    <TouchableOpacity style={{ padding: 10, backgroundColor: '#eee' }} onPress={() => this.updateCounter(data.name, data.price)}>
-                                                        <Text>
-                                                            +
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                    <Text>
-                                                        {
-                                                            this.state.countingObjects[data.name] === undefined ?
-                                                                '0'
-                                                                :
-                                                                this.state.countingObjects[data.name].count
-                                                        }
-                                                    </Text>
-                                                    <TouchableOpacity style={{ padding: 10, backgroundColor: '#eee' }} onPress={() => this.updateCounter(data.name, data.price)}>
-                                                        <Text>
-                                                            -
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            </ListItem>
-                                        )
-                                    })
-                                }
-                                <ListItem>
-                                    <Text>
-                                    </Text>
-                                </ListItem>
-                            </View>
-                        )
-                    }}
-                /> */}
-                <FlatList data={this.props.menu} extraData={this.state}
+                <View style={{ flex: 0.9 }} >
+                    <Accordion
+                        sections={this.props.menu}
+                        // renderSectionTitle={this._renderSectionTitle}
+                        renderHeader={this._renderHeader}
+                        renderContent={this._renderContent}
+                    />
+                </View>
+
+                {/* <FlatList data={this.props.menu} extraData={this.state}
                     renderItem={({ item, index }) => <View key={index}
                         style={{ flex: 0.9 }} >
                         <Text style={{ padding: 10, fontWeight: "bold", fontSize: fontScale * 20, backgroundColor: "#FEF8E8" }} > {item.menuSection} </Text>
@@ -178,7 +170,8 @@ class Menu extends Component {
                         />
                     </View>
                     }
-                />
+                /> */}
+
             </View>
         )
     }
@@ -191,7 +184,7 @@ const mapStateToProps = state => {
         isError: state.authReducer.isError,
         errorText: state.authReducer.errorText,
         menu: state.dbReducer.menu,
-        tableId:state.dbReducer.tableID
+        tableId: state.dbReducer.tableID
     };
 };
 const mapDispatchToProps = dispatch => {
