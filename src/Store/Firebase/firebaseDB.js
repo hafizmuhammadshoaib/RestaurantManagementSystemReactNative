@@ -40,6 +40,7 @@ export default class FirebaseDB {
             let newOrder = {};
             const keyValue = fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/history`).push().key;
             newOrder[`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/history/${keyValue}`] = obj.items;
+            newOrder[`Restaurants/${uid}/Kitchen/Orders/${orderId}/history/${keyValue}`] = obj.items;
             fire.update(newOrder, () => {
                 res(true);
             })
