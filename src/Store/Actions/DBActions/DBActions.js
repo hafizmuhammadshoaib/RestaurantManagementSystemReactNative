@@ -52,4 +52,21 @@ export default class DBActions{
             payload: data
         }
     }
+
+    static setUpdateFlag(){
+        return{
+            type: actionTypes.SET_UPDATE_FLAG
+        }
+    }
+
+    static updateOrder(obj, tableId, orderId){
+        return{
+            type: actionTypes.UPDATE_ORDER_REQUEST,
+            payload: {
+                obj,
+                tableId,
+                orderId
+            }
+        }
+    }
 }

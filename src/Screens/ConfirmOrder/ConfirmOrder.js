@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import DBActions from "../../Store/Actions/DBActions/DBActions";
 import FirebaseDB from '../../Store/Firebase/firebaseDB';
 import { connect } from "react-redux";
-import { StackActions, NavigationActions } from 'react-navigation'; 
+import { StackActions, NavigationActions } from 'react-navigation';
 
 const { height, fontScale, scale, width } = Dimensions.get("window");
 
@@ -23,8 +23,8 @@ class ConfirmOrder extends Component {
         const resetAction = StackActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({ routeName: `${route}` })],
-          });
-          this.props.navigation.dispatch(resetAction);
+        });
+        this.props.navigation.dispatch(resetAction);
     }
     componentDidMount() {
         // this.props.loadMenu()
@@ -33,13 +33,13 @@ class ConfirmOrder extends Component {
         console.log(orders);
         this.setState({ orderList: orders });
     }
-    componentWillReceiveProps(nextProps){
-        if(nextProps.orderPushed==="orderPushed"){
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.orderPushed === "orderPushed") {
             this.reset('home');
         }
     }
     static navigationOptions = {
-        
+
     }
 
 
@@ -51,7 +51,14 @@ class ConfirmOrder extends Component {
             status: "confirmed",
             "ETA": new Date().getTime() + 1200000
         }
-        this.props.doneOrder(obj,this.props.tableId);
+        if (this.props.setUpdateFlag) {
+            let obj = {
+                items: this.state.orderList,
+                status: "confirmed",
+            }
+            this.props.updateOrder(obj, this.props.tableId, this.props.orderId);
+        }
+        this.props.doneOrder(obj, this.props.tableId);
     }
 
     doneOrder = () => {
@@ -133,16 +140,19 @@ const mapStateToProps = state => {
         errorText: state.authReducer.errorText,
         tables: state.dbReducer.tables,
         menu: state.dbReducer.menu,
-        tableId:state.dbReducer.tableID,
-        orderPushed:state.dbReducer.orderPushed
-        
+        tableId: state.dbReducer.tableID,
+        orderId: state.dbReducer.orderID,
+        orderPushed: state.dbReducer.orderPushed,
+        setUpdateFlag: state.dbReducer.setUpdateFlag
+
     };
 };
 const mapDispatchToProps = dispatch => {
     return {
         loadTables: () => dispatch(DBActions.loadTables()),
         loadMenu: () => dispatch(DBActions.loadMenu()),
-        doneOrder: (obj,tableId) => dispatch(DBActions.pushDoneOrder(obj,tableId))
+        doneOrder: (obj, tableId) => dispatch(DBActions.pushDoneOrder(obj, tableId)),
+        updateOrder: (obj, tableId, orderId) => dispatch(DBActions.updateOrder(obj, tableId, orderId))
     };
 };
 export default connect(

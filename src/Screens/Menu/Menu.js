@@ -23,8 +23,11 @@ class Menu extends Component {
     componentDidMount() {
         this.props.loadMenu();
         prevOrderArray = this.props.navigation.getParam('orderArray');
-        let tableName=this.props.navigation.getParam('tableName');
-        this.props.setTableId(tableName);
+        tableName=this.props.navigation.getParam('tableName');
+        if(tableName){
+            this.props.setTableId(tableName);
+        }
+        console.log('prevOrderArray: ***********', prevOrderArray);
         this.setState({ prevOrderArray });
         this.checkPrevOrderArray(prevOrderArray)
     }

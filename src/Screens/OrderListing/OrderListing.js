@@ -23,15 +23,19 @@ class OrderListing extends Component {
         }
         tableName = this.props.navigation.getParam('tableName');
         this.props.setTableId(tableName);
+        console.log('this.props.setTableId(tableName): ', tableName)
         tableIndex = this.props.tables.findIndex(element => tableName === element.key);
         orderKeyArray = Object.keys(this.props.tables[tableIndex].Orders);
         orderArray = Object.values(this.props.tables[tableIndex].Orders);
         tempArrayOrder = [];
-        tempArraykeyOrder=[];
+        tempArraykeyOrder = [];
         tempArrayOrder.push(orderArray[0]);
         tempArraykeyOrder.push(orderKeyArray[0])
     }
 
+    componentDidMount() {
+        this.props.setUpdateFlag();
+    }
 
     static navigationOptions = {
 
@@ -52,18 +56,15 @@ class OrderListing extends Component {
             //     // <Icon style={{ color: "#2DB586" }} active name="dot-circle-o" />
             // ),
             headerRight: (
-                
-                    <TouchableOpacity style={{ flex: 1, justifyContent: 'center', height: height * 1 / 20, marginRight: width * 1 / 15 }} onPress={() => { navigation.navigate('menu', { orderArray: this.orderArray }) }}>
-                        <Text style={{ fontSize: fontScale * 50, fontWeight: "bold", color: "#fff" }} >+</Text>
-                    </TouchableOpacity>
-                
+
+                <TouchableOpacity style={{ flex: 1, justifyContent: 'center', height: height * 1 / 20, marginRight: width * 1 / 15 }} onPress={() => { navigation.navigate('menu', { orderArray: this.tempArrayOrder }) }}>
+                    <Text style={{ fontSize: fontScale * 50, fontWeight: "bold", color: "#fff" }} >+</Text>
+                </TouchableOpacity>
+
             ),
 
         };
     };
-    // navigateToMenu = () => {
-    //     this.props.navigation.navigate('menu', { orderArray: this.orderArray })
-    // }
 
 
     formatAMPM = (date) => {
@@ -159,13 +160,40 @@ class OrderListing extends Component {
                         <Tabs>
                             <Tab activeTabStyle={{ backgroundColor: 'red' }} tabStyle={{ backgroundColor: 'red' }} textStyle={{ color: '#fff' }} heading="ALL">
                                 <View style={{ flex: 1 }}>
-                                    {
-                                        this.props.tables[tableIndex].Orders[this.state.orderId].items.map(item => {
-                                            // orderArray[0].items.map(item => {
+                                    <FlatList
+                                        data={this.props.tables[tableIndex].Orders[this.state.orderId].items}
+                                        keyExtractor={(item, index) => index}
+                                        renderItem={({ item, index }) => {
                                             return (
-                                                <List>
-                                                    <ListItem>
-
+                                                <ListItem key={index}>
+                                                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                        <View>
+                                                            <Text>Item:  {item.item}</Text>
+                                                            <View style={{ alignSelf: 'flex-start' }}>
+                                                                <Text style={[styles.statusStyle, { backgroundColor: color[item.status] }]}>{item.status}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View>
+                                                            <Text>Qty {item.qty}</Text>
+                                                        </View>
+                                                    </View>
+                                                </ListItem>
+                                            )
+                                        }
+                                        }
+                                    />
+                                </View>
+                            </Tab>
+                            <Tab heading="Queued" activeTabStyle={{ backgroundColor: 'red' }} tabStyle={{ backgroundColor: 'red' }} textStyle={{ color: '#fff' }}>
+                                <View style={{ flex: 1 }}>
+                                    <FlatList
+                                        data={this.props.tables[tableIndex].Orders[this.state.orderId].items}
+                                        keyExtractor={(item, index) => index}
+                                        renderItem={({ item, index }) => {
+                                            // orderArray[0].items.map(item => {
+                                            if (item.status === 'queued') {
+                                                return (
+                                                    <ListItem key={index}>
                                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                                                             <View>
                                                                 <Text>Item:  {item.item}</Text>
@@ -178,97 +206,69 @@ class OrderListing extends Component {
                                                             </View>
                                                         </View>
                                                     </ListItem>
-                                                </List>
-                                            )
-                                        })
-                                    }
-                                </View>
-                            </Tab>
-                            <Tab heading="Queued" activeTabStyle={{ backgroundColor: 'red' }} tabStyle={{ backgroundColor: 'red' }} textStyle={{ color: '#fff' }}>
-                                <View style={{ flex: 1 }}>
-                                    <List>
-                                        {
-                                            this.props.tables[tableIndex].Orders[this.state.orderId].items.map(item => {
-                                                // orderArray[0].items.map(item => {
-                                                if (item.status === 'queued') {
-                                                    return (
-                                                        <ListItem>
-
-                                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-                                                                <View>
-                                                                    <Text>Item:  {item.item}</Text>
-                                                                    <View style={{ alignSelf: 'flex-start' }}>
-                                                                        <Text style={[styles.statusStyle, { backgroundColor: color[item.status] }]}>{item.status}</Text>
-                                                                    </View>
-                                                                </View>
-                                                                <View>
-                                                                    <Text>Qty {item.qty}</Text>
-                                                                </View>
-                                                            </View>
-                                                        </ListItem>
-                                                    )
-                                                }
-                                            })
+                                                )
+                                            }
                                         }
-                                    </List>
+                                        }
+                                    />
                                 </View>
                             </Tab>
                             <Tab heading="Cooking" activeTabStyle={{ backgroundColor: 'red' }} tabStyle={{ backgroundColor: 'red' }} textStyle={{ color: '#fff' }}>
                                 <View style={{ flex: 1 }}>
-                                    <List>
-                                        {
-                                            this.props.tables[tableIndex].Orders[this.state.orderId].items.map(item => {
-                                                // orderArray[0].items.map(item => {
-                                                if (item.status === 'cooking') {
-                                                    return (
-                                                        <ListItem>
-
-                                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-                                                                <View>
-                                                                    <Text>Item:  {item.item}</Text>
-                                                                    <View style={{ alignSelf: 'flex-start' }}>
-                                                                        <Text style={[styles.statusStyle, { backgroundColor: color[item.status] }]}>{item.status}</Text>
-                                                                    </View>
-                                                                </View>
-                                                                <View>
-                                                                    <Text>Qty {item.qty}</Text>
+                                    <FlatList
+                                        data={this.props.tables[tableIndex].Orders[this.state.orderId].items}
+                                        keyExtractor={(item, index) => index}
+                                        renderItem={({ item, index }) => {
+                                            // orderArray[0].items.map(item => {
+                                            if (item.status === 'cooking') {
+                                                return (
+                                                    <ListItem key={index}>
+                                                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                            <View>
+                                                                <Text>Item:  {item.item}</Text>
+                                                                <View style={{ alignSelf: 'flex-start' }}>
+                                                                    <Text style={[styles.statusStyle, { backgroundColor: color[item.status] }]}>{item.status}</Text>
                                                                 </View>
                                                             </View>
-                                                        </ListItem>
-                                                    )
-                                                }
-                                            })
+                                                            <View>
+                                                                <Text>Qty {item.qty}</Text>
+                                                            </View>
+                                                        </View>
+                                                    </ListItem>
+                                                )
+                                            }
                                         }
-                                    </List>
+                                        }
+                                    />
                                 </View>
                             </Tab>
                             <Tab heading="Deliverd" activeTabStyle={{ backgroundColor: 'red' }} tabStyle={{ backgroundColor: 'red' }} textStyle={{ color: '#fff' }}>
                                 <View style={{ flex: 1 }}>
-                                    <List>
-                                        {
-                                            this.props.tables[tableIndex].Orders[this.state.orderId].items.map(item => {
-                                                // orderArray[0].items.map(item => {
-                                                if (item.status === 'delivered') {
-                                                    return (
-                                                        <ListItem>
-
-                                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-                                                                <View>
-                                                                    <Text>Item:  {item.item}</Text>
-                                                                    <View style={{ alignSelf: 'flex-start' }}>
-                                                                        <Text style={[styles.statusStyle, { backgroundColor: color[item.status] }]}>{item.status}</Text>
-                                                                    </View>
-                                                                </View>
-                                                                <View>
-                                                                    <Text>Qty {item.qty}</Text>
+                                    <FlatList
+                                        data={this.props.tables[tableIndex].Orders[this.state.orderId].items}
+                                        keyExtractor={(item, index) => index}
+                                        renderItem={({ item, index }) => {
+                                            // orderArray[0].items.map(item => {
+                                            if (item.status === 'delivered') {
+                                                return (
+                                                    <ListItem key={index}>
+                                                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                            <View>
+                                                                <Text>Item:  {item.item}</Text>
+                                                                <View style={{ alignSelf: 'flex-start' }}>
+                                                                    <Text style={[styles.statusStyle, { backgroundColor: color[item.status] }]}>{item.status}</Text>
                                                                 </View>
                                                             </View>
-                                                        </ListItem>
-                                                    )
-                                                }
-                                            })
+                                                            <View>
+                                                                <Text>Qty {item.qty}</Text>
+                                                            </View>
+                                                        </View>
+                                                    </ListItem>
+                                                )
+                                            }
                                         }
-                                    </List>
+                                        }
+                                    />
                                 </View>
                             </Tab>
                         </Tabs>
@@ -288,6 +288,7 @@ let mapDispatchToProps = (dispatch) => {
     return {
         setTableId: (tableId) => dispatch(DBActions.setTableID(tableId)),
         setOrderId: (orderId) => dispatch(DBActions.setOrderID(orderId)),
+        setUpdateFlag: () => dispatch(DBActions.setUpdateFlag()),
     }
 }
 
