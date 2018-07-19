@@ -137,7 +137,7 @@ class Menu extends Component {
                         </CardItem>
                     </Card>
                 </View>
-                <View style={{ flex: 0.9 }}>
+                <View style={{ flex: 0.9 }} >
                     <Accordion
                         sections={this.props.menu}
                         // renderSectionTitle={this._renderSectionTitle}

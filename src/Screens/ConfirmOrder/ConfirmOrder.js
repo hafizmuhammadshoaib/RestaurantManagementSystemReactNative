@@ -41,6 +41,7 @@ class ConfirmOrder extends Component {
         if (nextProps.orderPushed === "orderPushed" || nextProps.orderUpdated === "orderUpdated") {
             this.reset('home');
         }
+        
     }
     static navigationOptions = {
 
