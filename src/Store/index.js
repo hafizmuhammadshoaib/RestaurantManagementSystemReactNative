@@ -25,7 +25,8 @@ export const rootEpic = combineEpics(
     DBEpic.loadTables,
     AuthEpic.chekUser,
     DBEpic.loadMenu,
-    DBEpic.pushDoneOrder
+    DBEpic.pushDoneOrder,
+    DBEpic.updateOrder,
   // more epics functions go here
 );
 

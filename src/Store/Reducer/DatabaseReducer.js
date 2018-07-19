@@ -9,7 +9,9 @@ let INITIAL_STATE = {
     menu: [],
     tableID: '',
     orderID: '',
-    orderPushed:''
+    orderPushed: '',
+    setUpdateFlag: false,
+    orderUpdated: ''
 }
 
 export default function dbReducer(state = INITIAL_STATE, action) {
@@ -35,17 +37,30 @@ export default function dbReducer(state = INITIAL_STATE, action) {
             return Object.assign({}, state, { isProgress: false, isError: true, errorText: action.payload })
 
         case actionTypes.PUSH_ORDER_PROGRESS:
-        return Object.assign({},state,{isProgress:true})
+            return Object.assign({}, state, { isProgress: true })
         case actionTypes.PUSH_ORDER_SUCCESS:
-        return Object.assign({},state,{isProgress:false,orderPushed:action.payload})
+            return Object.assign({}, state, { isProgress: false, orderPushed: action.payload })
         case actionTypes.PUSH_ORDER_ERROR:
-        return Object.assign({},state,{isProgress:false,isError:true,errorText:action.payload})
-        
+            return Object.assign({}, state, { isProgress: false, isError: true, errorText: action.payload })
+
 
         case actionTypes.SET_TABLE_ID:
             return Object.assign({}, state, { tableID: action.payload })
         case actionTypes.SET_ORDER_ID:
             return Object.assign({}, state, { orderID: action.payload })
+
+
+        case actionTypes.SET_UPDATE_FLAG:
+            return Object.assign({}, state, { setUpdateFlag: true });
+
+
+        case actionTypes.UPDATE_ORDER_REQUEST:
+            return Object.assign({}, state, { isProgress: true });
+        case actionTypes.UPDATE_ORDER_SUCCESS:
+            return Object.assign({}, state, { isProgress: false, orderUpdated: action.payload });
+        case actionTypes.UPDATE_ORDER_ERROR:
+            return Object.assign({}, state, { isProgress: false, isError: true, errorText: action.error });
+
         default:
             return state;
     }

@@ -33,6 +33,17 @@ export default class FirebaseDB {
            })
         })
     }
+
+    static updateOrder(obj, tableId, orderId){
+        console.log('obj, tableId, orderId *****@@@@@@*****', obj, tableId, orderId)
+        return new Promise((res, rej)=>{
+            let update = {};
+            update[`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}`] = obj;
+            fire.update(update, ()=>{
+                res(true);
+            })
+        })
+    }
 }
 
 function snapshotToArray(snapshot) {

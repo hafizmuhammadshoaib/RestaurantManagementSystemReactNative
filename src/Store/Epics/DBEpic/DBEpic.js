@@ -36,18 +36,34 @@ export default class DBEpic {
         })
     }
 
-    static pushDoneOrder(action$){
+    static pushDoneOrder(action$) {
         return action$.ofType(actionTypes.PUSH_ORDER_PROGRESS)
-                    .switchMap(({payload})=>{
-                        return Observable.fromPromise(FirebaseDB.pushDoneOrder(payload.orderObj,payload.tableId))
-                                .map((value)=>{
-                                    return{
-                                        type:actionTypes.PUSH_ORDER_SUCCESS,
-                                        payload:"orderPushed"
-                                    }
-                                }).catch(err=>{
-                                    return Observable.of({type:actionTypes.PUSH_ORDER_ERROR,payload:err.message})
-                                })
+            .switchMap(({ payload }) => {
+                return Observable.fromPromise(FirebaseDB.pushDoneOrder(payload.orderObj, payload.tableId))
+                    .map((value) => {
+                        return {
+                            type: actionTypes.PUSH_ORDER_SUCCESS,
+                            payload: "orderPushed"
+                        }
+                    }).catch(err => {
+                        return Observable.of({ type: actionTypes.PUSH_ORDER_ERROR, payload: err.message })
                     })
+            })
+    }
+
+    static updateOrder(action$) {
+        return action$.ofType(actionTypes.UPDATE_ORDER_REQUEST)
+            .switchMap(({ payload }) => {
+                return Observable.fromPromise(FirebaseDB.updateOrder(payload.obj, payload.tableId, payload.orderId))
+                    .map(() => {
+                        return {
+                            type: actionTypes.UPDATE_ORDER_SUCCESS,
+                            payload: 'orderUpdated'
+                        }
+                    })
+                    .catch(err => {
+                        return Observable.of({ type: actionTypes.UPDATE_ORDER_ERROR, error: err.message })
+                    })
+            })
     }
 }
