@@ -59,13 +59,14 @@ export default class DBActions{
         }
     }
 
-    static updateOrder(obj, tableId, orderId){
+    static updateOrder(obj, tableId, orderId, navigate){
         return{
             type: actionTypes.UPDATE_ORDER_REQUEST,
             payload: {
                 obj,
                 tableId,
-                orderId
+                orderId,
+                navigate
             }
         }
     }

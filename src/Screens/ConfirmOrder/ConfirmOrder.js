@@ -26,15 +26,19 @@ class ConfirmOrder extends Component {
         });
         this.props.navigation.dispatch(resetAction);
     }
+
     componentDidMount() {
         // this.props.loadMenu()
-
+        let localArray = [];
         let orders = this.props.navigation.state.params.state;
-        console.log(orders);
-        this.setState({ orderList: orders });
+        orders.forEach((data) => {
+            if (data.qty !== 0)
+                localArray.push(data);
+        });
+        this.setState({ orderList: localArray });
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.orderPushed === "orderPushed" || nextProps.orderUpdated ==="orderUpdated") {
+        if (nextProps.orderPushed === "orderPushed" || nextProps.orderUpdated === "orderUpdated") {
             this.reset('home');
         }
         
@@ -57,11 +61,10 @@ class ConfirmOrder extends Component {
                 items: this.state.orderList,
             }
             this.props.updateOrder(obj, this.props.tableId, this.props.orderId);
-        }else{
+        } else {
             this.props.doneOrder(obj, this.props.tableId);
         }
     }
-
     doneOrder = () => {
     }
     render() {
@@ -95,26 +98,24 @@ class ConfirmOrder extends Component {
                     data={this.state.orderList}
                     // keyExtractor={(item, index) => index}
                     renderItem={({ item, index }) => {
-                        console.log('item ', item.item)
-                        console.log('index ', )
-
-                        return (
-                            <ListItem style={{ justifyContent: "space-between" }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <View>
-                                        <Text style={{ fontSize: fontScale * 12, backgroundColor: '#f7b72c', borderRadius: 500, color: '#fff', height: 25, width: 25, textAlignVertical: 'center', textAlign: 'center' }}>
-                                            {index + 1}
-                                        </Text>
+                        if (item.qty !== 0)
+                            return (
+                                <ListItem style={{ justifyContent: "space-between" }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <View>
+                                            <Text style={{ fontSize: fontScale * 12, backgroundColor: '#f7b72c', borderRadius: 500, color: '#fff', height: 25, width: 25, textAlignVertical: 'center', textAlign: 'center' }}>
+                                                {index + 1}
+                                            </Text>
+                                        </View>
+                                        <View style={{ paddingLeft: 10 }}>
+                                            <Text style={{ fontSize: fontScale * 14, textAlign: 'left', fontWeight: '700' }}>{item.item}</Text>
+                                            <Text style={{ fontSize: fontScale * 14, alignSelf: 'flex-start' }}><Text style={{ color: '#b4b4b4', fontSize: fontScale * 14 }}>QTY{" - "}</Text>{item.qty}</Text>
+                                        </View>
                                     </View>
-                                    <View style={{ paddingLeft: 10 }}>
-                                        <Text style={{ fontSize: fontScale * 14, textAlign: 'left', fontWeight: '700' }}>{item.item}</Text>
-                                        <Text style={{ fontSize: fontScale * 14, alignSelf: 'flex-start' }}><Text style={{ color: '#b4b4b4', fontSize: fontScale * 14 }}>QTY{" - "}</Text>{item.qty}</Text>
+                                    <View style={{ flexDirection: 'row', alignItems: "center" }}>
                                     </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: "center" }}>
-                                </View>
-                            </ListItem>
-                        )
+                                </ListItem>
+                            )
                     }} />
                 <View style={{ flex: 0.4, backgroundColor: '#fff' }}>
                     <TouchableOpacity onPress={this.confirmOrder}>
@@ -145,8 +146,7 @@ const mapStateToProps = state => {
         orderId: state.dbReducer.orderID,
         orderPushed: state.dbReducer.orderPushed,
         setUpdateFlag: state.dbReducer.setUpdateFlag,
-        orderUpdated:state.dbReducer.orderUpdated
-
+        orderUpdated: state.dbReducer.orderUpdated,
     };
 };
 const mapDispatchToProps = dispatch => {

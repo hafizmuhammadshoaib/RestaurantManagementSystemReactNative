@@ -9,7 +9,6 @@ import Ripple from 'react-native-material-ripple';
 
 const { height, fontScale, scale, width } = Dimensions.get("window")
 
-
 class Menu extends Component {
     constructor(props) {
         super(props);
@@ -24,61 +23,29 @@ class Menu extends Component {
     prevOrderArray = []
     componentDidMount() {
         this.props.loadMenu();
-        prevOrderArray = this.props.navigation.getParam('orderArray');
+        // prevOrderArray = this.props.navigation.getParam('orderArray');
         tableName = this.props.navigation.getParam('tableName');
         if (tableName) {
             this.props.setTableId(tableName);
         }
-        console.log('prevOrderArray: ***********', prevOrderArray);
-        this.setState({ prevOrderArray });
+        // console.log('prevOrderArray: ***********', prevOrderArray);
+        // this.setState({ prevOrderArray });
         // this.checkPrevOrderArray(prevOrderArray)
     }
-    _renderSectionTitle = (section) => {
-        return (
-            <View >
-                <Text>{section.menuSection}</Text>
-            </View>
-        );
-    }
-    _renderHeader = (section) => {
-        return (
-            
 
-                    <Text style={{ padding: 10, fontWeight: "bold", fontSize: fontScale * 20, backgroundColor: "#FEF8E8" }} >{section.menuSection}</Text>
-
-            
-        );
-    }
-    _renderContent = (section) => {
-        return (
-            <View >
-                <FlatList data={section.items} extraData={this.state} style={{ backgroundColor: "#ffffff" }}
-                    renderItem={({ item, index }) => (<ListItem style={{ justifyContent: "space-between" }} key={index} >
-                        <Text>{item.name}</Text>
-                        <View style={{ flexDirection: "row", alignItems: "center", }} >
-                            <Button onPress={() => { this.itemCounterPlus(item.name, item.price) }} title=" + " color="#BA1F1F" />
-                            <Text style={{ padding: 10, fontWeight: "bold", color: "#CC6C6A" }} > {this.state.countingObjects[item.name] == undefined ? '0' : this.state.countingObjects[item.name].count}</Text>
-                            <Button onPress={() => { this.itemCounterSub(item.name, item.price) }} title=" - " color="#BA1F1F" />
-                        </View>
-                    </ListItem>)}
-                />
-            </View>
-        );
-    }
-
-    checkPrevOrderArray = (prevOrderArray) => {
-        if (prevOrderArray) {
-            prevOrderArray.forEach(data => {
-                data.items.forEach(item => {
-                    this.countingObjects[item.item] = {
-                        count: parseInt(item.qty),
-                        price: parseInt(item.price)
-                    }
-                })
-            })
-            this.setState({ countingObjects: this.countingObjects });
-        }
-    }
+    // checkPrevOrderArray = (prevOrderArray) => {
+    //     if (prevOrderArray) {
+    //         prevOrderArray.forEach(data => {
+    //             data.items.forEach(item => {
+    //                 this.countingObjects[item.item] = {
+    //                     count: parseInt(item.qty),
+    //                     price: parseInt(item.price)
+    //                 }
+    //             })
+    //         })
+    //         this.setState({ countingObjects: this.countingObjects });
+    //     }
+    // }
 
     itemCounterPlus = (itemName, price) => {
         console.log(this.countingObjects)
@@ -100,7 +67,6 @@ class Menu extends Component {
         }
         this.setState({ countingObjects: this.countingObjects });
     }
-
 
 
     updateCounter = (data, price) => {
@@ -130,6 +96,32 @@ class Menu extends Component {
         this.props.navigation.navigate('confirmOrder', { state: this.orderArray });
         this.orderArray = [];
     }
+
+    // _renderSectionTitle = (section) => {
+    //     return (<Text style={{ padding: 10, fontWeight: "bold", fontSize: fontScale * 20, backgroundColor: "#FEF8E8" }} > {section.menuSection} </Text>)
+    // }
+
+    _renderHeader = (section) => {
+        return (
+            <Text style={{ padding: 10, fontWeight: "bold", fontSize: fontScale * 20, backgroundColor: "#FEF8E8" }} > {section.menuSection} </Text>
+        )
+    }
+
+    _renderContent = (section) => {
+        return (
+            <FlatList data={section.items} extraData={this.state} style={{ backgroundColor: "#ffffff" }}
+                renderItem={({ item, index }) => (<ListItem style={{ justifyContent: "space-between" }} key={index} >
+                    <Text>{item.name}</Text>
+                    <View style={{ flexDirection: "row", alignItems: "center", }} >
+                        <Button onPress={() => { this.itemCounterPlus(item.name, item.price) }} title=" + " color="#BA1F1F" />
+                        <Text style={{ padding: 10, fontWeight: "bold", color: "#CC6C6A" }} > {this.state.countingObjects[item.name] == undefined ? '0' : this.state.countingObjects[item.name].count}</Text>
+                        <Button onPress={() => { this.itemCounterSub(item.name, item.price) }} title=" - " color="#BA1F1F" />
+                    </View>
+                </ListItem>)}
+            />
+        )
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }} >
@@ -153,7 +145,6 @@ class Menu extends Component {
                         renderContent={this._renderContent}
                     />
                 </View>
-
                 {/* <FlatList data={this.props.menu} extraData={this.state}
                     renderItem={({ item, index }) => <View key={index}
                         style={{ flex: 0.9 }} >
@@ -167,11 +158,8 @@ class Menu extends Component {
                                     <Button onPress={() => { this.itemCounterSub(item.name, item.price) }} title=" - " color="#BA1F1F" />
                                 </View>
                             </ListItem>)}
-                        />
-                    </View>
-                    }
-                /> */}
-
+                        /> */}
+                {/* </View> */}
             </View>
         )
     }

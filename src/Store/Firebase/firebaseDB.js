@@ -19,22 +19,22 @@ export default class FirebaseDB {
         })
     }
 
-    static pushDoneOrder(orderObj,tableId){
-        console.log("////////******///////",tableId);
-        return new Promise((res, rej)=>{
-            let updates={}
-           const keyValue= fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders`).push().key;
-           updates[`Restaurants/${uid}/Tables/${tableId}/status`]="occupied"
-           updates[`Restaurants/${uid}/Tables/${tableId}/Orders/${keyValue}`]=orderObj;
-           updates[`Restaurants/${uid}/Kitchen/Orders/${keyValue}`]=orderObj
-           fire.update(updates,()=>{
+    static pushDoneOrder(orderObj, tableId) {
+        console.log("////////******///////", tableId);
+        return new Promise((res, rej) => {
+            let updates = {}
+            const keyValue = fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders`).push().key;
+            updates[`Restaurants/${uid}/Tables/${tableId}/status`] = "occupied"
+            updates[`Restaurants/${uid}/Tables/${tableId}/Orders/${keyValue}`] = orderObj;
+            updates[`Restaurants/${uid}/Kitchen/Orders/${keyValue}`] = orderObj
+            fire.update(updates, () => {
 
-               res(true);
-           })
+                res(true);
+            })
         })
     }
 
-    static updateOrder(obj, tableId, orderId){
+    static updateOrder(obj, tableId, orderId) {
         console.log('obj, tableId, orderId *****@@@@@@*****', obj, tableId, orderId)
         return new Promise((res, rej)=>{
             const keyValue=fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/history`).push().key;
