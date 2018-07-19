@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform, StyleSheet, Text, View, Image, ImageBackground, Dimensions, TextInput, FlatList, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, Text, View, ImageBackground, Dimensions, TextInput, FlatList, TouchableOpacity, Image } from 'react-native';
 import { Card, CardItem, Container, Header, Content, Tab, Tabs, List, ListItem, Icon, Button } from "native-base";
 // const { width, height, fontScale, scale } = Dimensions.get('window');
 let tableName = undefined;
@@ -27,7 +27,7 @@ class OrderListing extends Component {
         orderKeyArray = Object.keys(this.props.tables[tableIndex].Orders);
         orderArray = Object.values(this.props.tables[tableIndex].Orders);
         tempArrayOrder = [];
-        tempArraykeyOrder=[];
+        tempArraykeyOrder = [];
         tempArrayOrder.push(orderArray[0]);
         tempArraykeyOrder.push(orderKeyArray[0])
     }
@@ -52,11 +52,14 @@ class OrderListing extends Component {
             //     // <Icon style={{ color: "#2DB586" }} active name="dot-circle-o" />
             // ),
             headerRight: (
-                
+                <View style={{ flexDirection: "row", flex: 1, alignItems: "center",justifyContent:"space-between"}}  >
+                    <TouchableOpacity style={{ flex: 1, justifyContent: 'center', height: height * 1 / 20, marginRight: width * 1 / 15 }} onPress={()=>{navigation.navigate('Bill',{orderArray:this.tempArrayOrder})}} >
+                        <Image source={require('./bill.png')} />
+                    </TouchableOpacity>
                     <TouchableOpacity style={{ flex: 1, justifyContent: 'center', height: height * 1 / 20, marginRight: width * 1 / 15 }} onPress={() => { navigation.navigate('menu', { orderArray: this.orderArray }) }}>
                         <Text style={{ fontSize: fontScale * 50, fontWeight: "bold", color: "#fff" }} >+</Text>
                     </TouchableOpacity>
-                
+                </View>
             ),
 
         };

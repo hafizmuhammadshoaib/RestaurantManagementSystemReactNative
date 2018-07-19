@@ -12,7 +12,9 @@ import Home from './src/Screens/Home/Home';
 
 import OrderListing from './src/Screens/OrderListing/OrderListing';
 
-import ConfirmOrder from './src/Screens/ConfirmOrder/ConfirmOrder'
+import ConfirmOrder from './src/Screens/ConfirmOrder/ConfirmOrder';
+
+import Bill from './src/Screens/Bill/Bill';
 
 import { Provider } from "react-redux";
 
@@ -47,7 +49,8 @@ const RootStack = createStackNavigator({
   home: Home,
   order: OrderListing,
   menu:Menu,
-  confirmOrder:ConfirmOrder
+  confirmOrder:ConfirmOrder,
+  Bill:Bill
 }, {
     initialRouteName: "splash",
     navigationOptions: {

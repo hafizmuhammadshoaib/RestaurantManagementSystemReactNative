@@ -26,6 +26,7 @@ export default class FirebaseDB {
            const keyValue= fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders`).push().key;
            updates[`Restaurants/${uid}/Tables/${tableId}/status`]="occupied"
            updates[`Restaurants/${uid}/Tables/${tableId}/Orders/${keyValue}`]=orderObj;
+           updates[`Restaurants/${uid}/Kitchen/Orders/${keyValue}`]=orderObj
            fire.update(updates,()=>{
 
                res(true);
