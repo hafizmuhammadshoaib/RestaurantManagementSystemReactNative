@@ -57,9 +57,9 @@ export default function dbReducer(state = INITIAL_STATE, action) {
         case actionTypes.UPDATE_ORDER_REQUEST:
             return Object.assign({}, state, { isProgress: true });
         case actionTypes.UPDATE_ORDER_SUCCESS:
-            return Object.assign({}, state, { isProgress: false, orderUpdated: action.payload });
+            return Object.assign({}, state, { isProgress: false, orderUpdated: action.payload, setUpdateFlag: false });
         case actionTypes.UPDATE_ORDER_ERROR:
-            return Object.assign({}, state, { isProgress: false, isError: true, errorText: action.error });
+            return Object.assign({}, state, { isProgress: false, isError: true, errorText: action.error, setUpdateFlag: false });
 
         default:
             return state;

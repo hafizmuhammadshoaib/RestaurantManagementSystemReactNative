@@ -19,27 +19,28 @@ export default class FirebaseDB {
         })
     }
 
-    static pushDoneOrder(orderObj,tableId){
-        console.log("////////******///////",tableId);
-        return new Promise((res, rej)=>{
-            let updates={}
-           const keyValue= fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders`).push().key;
-           updates[`Restaurants/${uid}/Tables/${tableId}/status`]="occupied"
-           updates[`Restaurants/${uid}/Tables/${tableId}/Orders/${keyValue}`]=orderObj;
-           updates[`Restaurants/${uid}/Kitchen/Orders/${keyValue}`]=orderObj
-           fire.update(updates,()=>{
+    static pushDoneOrder(orderObj, tableId) {
+        console.log("////////******///////", tableId);
+        return new Promise((res, rej) => {
+            let updates = {}
+            const keyValue = fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders`).push().key;
+            updates[`Restaurants/${uid}/Tables/${tableId}/status`] = "occupied"
+            updates[`Restaurants/${uid}/Tables/${tableId}/Orders/${keyValue}`] = orderObj;
+            updates[`Restaurants/${uid}/Kitchen/Orders/${keyValue}`] = orderObj
+            fire.update(updates, () => {
 
-               res(true);
-           })
+                res(true);
+            })
         })
     }
 
-    static updateOrder(obj, tableId, orderId){
+    static updateOrder(obj, tableId, orderId) {
         console.log('obj, tableId, orderId *****@@@@@@*****', obj, tableId, orderId)
-        return new Promise((res, rej)=>{
-            let update = {};
-            update[`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/items`] = obj.items;
-            fire.update(update, ()=>{
+        return new Promise((res, rej) => {
+            let newOrder = {};
+            const keyValue = fire.child(`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/history`).push().key;
+            newOrder[`Restaurants/${uid}/Tables/${tableId}/Orders/${orderId}/history/${keyValue}`] = obj.items;
+            fire.update(newOrder, () => {
                 res(true);
             })
         })
